@@ -1,4 +1,8 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Brewfriends
+
+Приложение для поиска кофе-встреч и знакомств с людьми поблизости.
+
+Подробное описание архитектуры, структуры папок и текущего состояния — в [docs/PROJECT.md](docs/PROJECT.md).
 
 ## Getting Started
 
