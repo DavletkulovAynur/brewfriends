@@ -1,13 +1,6 @@
-import { CafeStoriesRow } from "@/components/features/home/cafe-stories-row";
-import { EventsBento } from "@/components/features/home/events-bento";
-import type { BentoEvent } from "@/components/features/home/event-bento-card";
-import { StatsRow } from "@/components/features/home/stats-row";
-
-const mockStats = [
-  { label: "кафе рядом", value: 4, href: "/map" },
-  { label: "онлайн", value: 12, href: "/people" },
-  { label: "в кафе", value: 3, href: "/map" },
-] as const;
+import { CafeStoriesRow } from "@/components/features/home/presence/cafe-stories-row";
+import { EventsBento } from "@/components/features/events/events-bento";
+import { mockEvents } from "@/components/features/events/mock-events";
 
 const mockPeopleInCafes = [
   { id: "1", name: "Анна", cafeName: "Starbucks" },
@@ -22,42 +15,6 @@ const mockNearbyCafes = [
   { id: "2", name: "Double B", distance: "450 м", peopleCount: 1 },
   { id: "3", name: "Surf Coffee", distance: "600 м", peopleCount: 0 },
 ] as const;
-
-const mockEvents: BentoEvent[] = [
-  {
-    id: "1",
-    title: "Coffee & Code",
-    date: "25 ноя.",
-    time: "14:00–15:30",
-    location: "Starbucks, Невский",
-    tag: "Сегодня",
-    hostName: "Анна К.",
-    hostRole: "Организатор",
-    color: "amber",
-    size: "large",
-  },
-  {
-    id: "2",
-    title: "Morning Brew",
-    date: "28 ноя.",
-    time: "10:00–11:00",
-    location: "Double B",
-    tag: "Рядом",
-    color: "sky",
-    size: "medium",
-  },
-  {
-    id: "3",
-    title: "Создать встречу",
-    date: "",
-    time: "",
-    location: "Пригласи людей на кофе",
-    tag: "",
-    color: "rose",
-    size: "small",
-    variant: "cta",
-  },
-];
 
 export default function HomePage() {
   return (
@@ -77,8 +34,6 @@ export default function HomePage() {
         }))}
         userInitial="А"
       />
-
-      <StatsRow items={[...mockStats]} />
 
       <EventsBento events={mockEvents} />
     </div>

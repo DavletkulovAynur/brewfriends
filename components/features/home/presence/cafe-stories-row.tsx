@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { CafeStoryCircle } from "./cafe-story-circle";
 import { PresenceSheet, type CafeOption } from "./presence-sheet";
-import { SectionHeader } from "./section-header";
+import { SectionHeader } from "../shared/section-header";
 
 export type CafeStoryPerson = {
   id: string;
