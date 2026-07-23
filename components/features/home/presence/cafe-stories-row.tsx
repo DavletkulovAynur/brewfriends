@@ -50,10 +50,10 @@ export function CafeStoriesRow({
 
   return (
     <>
-      <section className="flex flex-col gap-3">
-        <SectionHeader title="Сейчас в кафе" href="/map" linkLabel="На карте" />
+    <section className="flex flex-col gap-3">
+      <SectionHeader title="Сейчас в кафе" href="/map" linkLabel="На карте" />
 
-        <div className="-mx-6 flex gap-4 overflow-x-auto px-6 pb-1">
+      <div className="-mx-6 flex gap-4 overflow-x-auto px-6 pb-0.5">
           <CafeStoryCircle
             name="Ты"
             subtitle={ownSubtitle}
