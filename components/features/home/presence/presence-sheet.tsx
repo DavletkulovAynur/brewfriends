@@ -14,6 +14,7 @@ type PresenceSheetProps = {
   cafes: CafeOption[];
   isAvailable: boolean;
   selectedCafeId: string | null;
+  saving?: boolean;
   onClose: () => void;
   onSave: (data: { isAvailable: boolean; cafeId: string | null }) => void;
   onHide: () => void;
@@ -24,6 +25,7 @@ export function PresenceSheet({
   cafes,
   isAvailable,
   selectedCafeId,
+  saving = false,
   onClose,
   onSave,
   onHide,
@@ -151,22 +153,24 @@ export function PresenceSheet({
           <div className="flex flex-col gap-2">
             <button
               type="button"
+              disabled={saving}
               onClick={() =>
                 onSave({
                   isAvailable: available,
                   cafeId: available ? cafeId : null,
                 })
               }
-              className="rounded-full bg-zinc-900 py-3 text-sm font-medium text-white dark:bg-white dark:text-zinc-900"
+              className="rounded-full bg-zinc-900 py-3 text-sm font-medium text-white disabled:opacity-60 dark:bg-white dark:text-zinc-900"
             >
-              Сохранить
+              {saving ? "Сохранение..." : "Сохранить"}
             </button>
 
             {isAvailable ? (
               <button
                 type="button"
+                disabled={saving}
                 onClick={onHide}
-                className="rounded-full border border-zinc-300 py-3 text-sm font-medium dark:border-zinc-700"
+                className="rounded-full border border-zinc-300 py-3 text-sm font-medium disabled:opacity-60 dark:border-zinc-700"
               >
                 Скрыть меня
               </button>

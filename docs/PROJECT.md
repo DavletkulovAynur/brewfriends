@@ -26,7 +26,9 @@ Telegram Mini App                    Telegram
 | Стили | Tailwind CSS v4 |
 | Иконки | Lucide React |
 | Шрифты | Geist Sans / Geist Mono (`next/font`) |
-| Платформа | Telegram Mini App (планируется) |
+| БД | PostgreSQL (Neon) + Drizzle ORM |
+| Auth | Telegram Mini App `initData` + session cookie |
+| Платформа | Telegram Mini App |
 
 ## Структура папок
 
@@ -154,7 +156,14 @@ type User = {
 
 | Метод | URL | Сервис |
 |-------|-----|--------|
+| `POST` | `/api/auth/telegram` | `authService` — login via initData / dev bypass |
+| `GET` | `/api/auth/me` | текущий пользователь из session cookie |
 | `GET` | `/api/users` | `userService.list()` |
+| `GET` | `/api/cafes` | `cafeService.list()` |
+| `GET` | `/api/presence` | видимые people для Home stories |
+| `POST` | `/api/presence` | сохранить свой presence (opt-in, TTL 2ч) |
+| `DELETE` | `/api/presence` | скрыть себя |
+| `GET` | `/api/presence/me` | свой presence |
 | `GET` | `/api/events` | `eventService.list()` |
 | `GET` | `/api/matching` | `matchService.findMatches()` |
 
@@ -162,9 +171,10 @@ type User = {
 
 | Модуль | Статус | Назначение |
 |--------|--------|------------|
-| `lib/db/` | Заглушка | Подключение к базе данных |
+| `lib/db/` | Готово | Neon + Drizzle; memory fallback без `DATABASE_URL` |
 | `lib/ai/` | Заглушка | AI-клиент, промпты и tools для матчинга |
-| `lib/telegram/` | Заглушка | Telegram Mini App SDK |
+| `lib/telegram/` | Готово | WebApp SDK + серверная валидация `initData` |
+| `lib/auth/` | Готово | JWT session cookie |
 | `lib/utils/` | Готово | Утилиты (`cn` для классов) |
 
 ## Текущее состояние
@@ -173,13 +183,13 @@ type User = {
 |---------|--------|
 | Роутинг и layouts | Готово (`Home / Map / People / Settings`) |
 | Domain-типы | `User`, `Cafe`, `UserPresence`, Telegram-логика |
-| Repositories | Заглушки (пустые массивы) |
-| Services + API | GET-эндпоинты, без записи |
-| UI-компоненты | Bottom nav готов, остальное — заглушки |
+| Repositories | users / cafes / presence (Neon или memory) |
+| Services + API | auth, presence, cafes, users |
+| UI-компоненты | Home stories + presence sheet на API |
 | Карта | Не реализована |
-| Presence sharing | Только типы и логика |
-| Telegram Mini App | Заглушка в `lib/telegram/` |
-| База данных | Не подключена |
+| Presence sharing | Opt-in через sheet, TTL 2 часа |
+| Telegram Mini App | SDK + initData auth (+ dev bypass) |
+| База данных | Drizzle schema + `drizzle/0000_init.sql` |
 | Тесты | Не настроены |
 
 ## Куда класть новый код
@@ -208,9 +218,13 @@ type User = {
 
 ## Запуск
 
+Скопируйте `example.env` → `.env.local`. Без `DATABASE_URL` используется in-memory store (удобно для локальной разработки). С Neon: задайте `DATABASE_URL` и выполните `npm run db:push`.
+
 ```bash
 npm install
 npm run dev
 ```
 
 Приложение: [http://localhost:3000](http://localhost:3000)
+
+В браузере вне Telegram при `DEV_AUTH_BYPASS=1` создаётся dev-пользователь «Айнур».
