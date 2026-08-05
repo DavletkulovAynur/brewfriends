@@ -36,7 +36,6 @@ Telegram Mini App                    Telegram
 brewfriends/
 ├── app/                  # Next.js App Router
 │   ├── (app)/            # Основное приложение (нижняя навигация)
-│   ├── (auth)/           # Авторизация (центрированный layout)
 │   └── api/              # HTTP-эндпоинты
 ├── components/
 │   ├── ui/               # Переиспользуемые UI-примитивы
@@ -143,14 +142,9 @@ type User = {
 | `/profile` | Редирект на `/settings` (обратная совместимость) |
 | `/events` | Редирект на `/home` (обратная совместимость) |
 
-### Авторизация `(auth)`
+### Авторизация
 
-| URL | Страница |
-|-----|----------|
-| `/login` | Вход |
-| `/register` | Регистрация |
-
-В будущем основная авторизация — через Telegram Mini App (`initData`), отдельные страницы могут стать необязательными.
+Отдельных страниц `/login` и `/register` нет. Вход через Telegram Mini App (`initData`) или dev bypass; пользователь создаётся при первом входе (`upsertFromTelegram`), дальше сразу `/home`.
 
 ### API
 
