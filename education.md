@@ -1,4 +1,4 @@
-# Brewfriends — план обучения
+# Brewfriends — план обучения - 
 
 Учебный трек на живом проекте: Next.js, Vercel, Neon/Drizzle, Cursor-агенты и проверка PR.
 
