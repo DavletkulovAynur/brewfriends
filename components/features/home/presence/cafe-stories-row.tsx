@@ -74,6 +74,8 @@ export function CafeStoriesRow() {
 
   useEffect(() => {
     if (status === "loading") return;
+    // This effect loads external data and updates the component state with the response.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     void loadData();
   }, [status, loadData]);
 
@@ -183,6 +185,7 @@ export function CafeStoriesRow() {
       </section>
 
       <PresenceSheet
+        key={sheetOpen ? "open" : "closed"}
         open={sheetOpen}
         cafes={cafes}
         isAvailable={ownPresence.isAvailable}
