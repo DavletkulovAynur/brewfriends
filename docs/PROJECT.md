@@ -21,7 +21,7 @@ Telegram Mini App                    Telegram
 | Слой | Технология |
 |------|------------|
 | Framework | Next.js 16 (App Router) |
-| UI | React 19 |
+| UI | React 19 + shadcn/ui (Radix UI) |
 | Язык | TypeScript (strict) |
 | Стили | Tailwind CSS v4 |
 | Иконки | Lucide React |
@@ -180,6 +180,7 @@ type User = {
 | Repositories | users / cafes / presence (Neon или memory) |
 | Services + API | auth, presence, cafes, users |
 | UI-компоненты | Home stories + presence sheet на API |
+| UI-примитивы | shadcn/ui: button, card, forms, dialogs, sheet, tabs, feedback |
 | Карта | Не реализована |
 | Presence sharing | Opt-in через sheet, TTL 2 часа |
 | Telegram Mini App | SDK + initData auth (+ dev bypass) |
@@ -199,6 +200,8 @@ type User = {
 | Страница | `app/(app)/<route>/page.tsx` |
 | React-хук | `hooks/` |
 | Клиентский state | `store/` |
+
+Переиспользуемые базовые компоненты shadcn/ui находятся в `components/ui/`. Новые общие примитивы добавлять через shadcn CLI; компонентам конкретных функций оставаться в `components/features/`.
 
 ## Рекомендуемый порядок разработки
 
