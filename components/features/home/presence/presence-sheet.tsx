@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 export type CafeOption = {
@@ -32,13 +32,6 @@ export function PresenceSheet({
 }: PresenceSheetProps) {
   const [available, setAvailable] = useState(isAvailable);
   const [cafeId, setCafeId] = useState<string | null>(selectedCafeId);
-
-  useEffect(() => {
-    if (open) {
-      setAvailable(isAvailable);
-      setCafeId(selectedCafeId);
-    }
-  }, [open, isAvailable, selectedCafeId]);
 
   if (!open) return null;
 

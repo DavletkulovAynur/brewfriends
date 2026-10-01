@@ -104,6 +104,8 @@ export function TelegramAuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
+    // Authentication is an external async operation that updates provider state.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     void refresh();
   }, [refresh]);
 
