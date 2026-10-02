@@ -22,6 +22,20 @@ export type OwnPresenceView = {
   sharedUntil?: string;
 };
 
+const MAX_VISIBLE_STORIES = 6;
+
+function randomSample<T>(items: T[], limit: number): T[] {
+  const shuffled = [...items];
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+    [shuffled[index], shuffled[randomIndex]] = [
+      shuffled[randomIndex],
+      shuffled[index],
+    ];
+  }
+  return shuffled.slice(0, limit);
+}
+
 export const presenceService = {
   async getOwn(userId: string): Promise<OwnPresenceView> {
     const presence = await presenceRepository.findByUserId(userId);
@@ -51,7 +65,7 @@ export const presenceService = {
     const usersById = new Map(users.map((user) => [user.id, user]));
     const cafesById = new Map(cafes.map((cafe) => [cafe.id, cafe]));
 
-    return presences
+    const visibleStories = presences
       .filter((presence) => isActivelySharing(presence))
       .filter((presence) => presence.userId !== excludeUserId)
       .flatMap((presence) => {
@@ -70,6 +84,8 @@ export const presenceService = {
         };
         return [person];
       });
+
+    return randomSample(visibleStories, MAX_VISIBLE_STORIES);
   },
 
   async save(

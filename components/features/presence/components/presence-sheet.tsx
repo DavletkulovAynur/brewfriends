@@ -2,12 +2,7 @@
 
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-
-export type CafeOption = {
-  id: string;
-  name: string;
-  distance: string;
-};
+import type { CafeOption } from "@/components/features/cafes/types/cafe.types";
 
 type PresenceSheetProps = {
   open: boolean;

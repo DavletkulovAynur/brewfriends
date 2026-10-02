@@ -1,4 +1,4 @@
-import { BottomNav } from "@/components/features/navigation/bottom-nav";
+import { BottomNav } from "@/components/navigation/bottom-nav";
 import { TelegramAuthProvider } from "@/components/providers/telegram-auth-provider";
 
 export default function AppLayout({

@@ -1,5 +1,5 @@
-import { EventHomeTileGrid, type BentoEvent } from "./event-bento-card";
-import { SectionHeader } from "@/components/features/home/shared/section-header";
+import { EventHomeTileGrid, type BentoEvent } from "../components/event-bento-card";
+import { SectionHeader } from "@/components/shared/section-header";
 
 type EventsBentoProps = {
   events: BentoEvent[];

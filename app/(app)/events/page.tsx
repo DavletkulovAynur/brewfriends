@@ -1,7 +1,7 @@
 "use client";
 
-import { EventListCard } from "@/components/features/events/event-list-card";
-import { EventsHeader } from "@/components/features/events/events-header";
+import { EventListCard } from "@/components/features/events/components/event-list-card";
+import { EventsHeader } from "@/components/features/events/components/events-header";
 import { mockEvents } from "@/components/features/events/mock-events";
 
 export default function EventsPage() {
