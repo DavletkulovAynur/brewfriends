@@ -1,4 +1,4 @@
-import type { BentoEvent } from "./event-bento-card";
+import type { BentoEvent } from "./components/event-bento-card";
 
 const colors: BentoEvent["color"][] = ["amber", "sky", "rose"];
 
