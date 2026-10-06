@@ -2,15 +2,6 @@ import type { PresenceStatus, UserPresence } from "./presence.types";
 
 export const DEFAULT_PRESENCE_HOURS = 2;
 
-export function isVisibleOnMap(presence: UserPresence): boolean {
-  return (
-    presence.status === "in_cafe" &&
-    presence.isLocationShared &&
-    Boolean(presence.cafeId) &&
-    !isPresenceExpired(presence)
-  );
-}
-
 export function isActivelySharing(presence: UserPresence): boolean {
   return (
     presence.isLocationShared &&

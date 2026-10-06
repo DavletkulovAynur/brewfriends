@@ -75,8 +75,8 @@ domain/                 — типы и правила без побочных �
 | Модуль | Назначение |
 |--------|------------|
 | `domain/users/` | Тип `User`, Telegram-ссылки, проверка профиля |
-| `domain/cafes/` | Тип `Cafe` — кофейни на карте |
-| `domain/presence/` | Тип `UserPresence`, видимость на карте |
+| `domain/cafes/` | Тип `Cafe` — кофейни |
+| `domain/presence/` | Тип `UserPresence`, активный статус пользователя |
 | `domain/events/` | Тип `Event` — встречи (отображаются на Home) |
 | `domain/matching/` | Скоринг и подбор совпадений между пользователями |
 
@@ -114,17 +114,6 @@ type User = {
 };
 ```
 
-### Presence на карте
-
-Пользователь виден на Map только если:
-
-- `status === "in_cafe"`
-- `isLocationShared === true`
-- указан `cafeId`
-- не истёк `sharedUntil`
-
-Логика в `domain/presence/presence.logic.ts` → `isVisibleOnMap()`.
-
 ## Навигация (нижний таб)
 
 | Таб | URL | Назначение |
@@ -132,7 +121,6 @@ type User = {
 | **Home** | `/home` | Дайджест: кафе рядом, люди онлайн, встречи |
 
 Подробный план экрана Home — в [docs/HOME.md](HOME.md).
-| **Map** | `/map` | Карта кафе + люди, которые shared presence |
 | **People** | `/people` | Сообщество, поиск, переход в Telegram |
 | **Settings** | `/settings` | Профиль, интересы, приватность, Telegram |
 
@@ -175,13 +163,12 @@ type User = {
 
 | Область | Статус |
 |---------|--------|
-| Роутинг и layouts | Готово (`Home / Map / People / Settings`) |
+| Роутинг и layouts | Готово (`Home / People / Settings`) |
 | Domain-типы | `User`, `Cafe`, `UserPresence`, Telegram-логика |
 | Repositories | users / cafes / presence (Neon или memory) |
 | Services + API | auth, presence, cafes, users |
 | UI-компоненты | Home stories + presence sheet на API |
 | UI-примитивы | shadcn/ui: button, card, forms, dialogs, sheet, tabs, feedback |
-| Карта | Не реализована |
 | Presence sharing | Opt-in через sheet, TTL 2 часа |
 | Telegram Mini App | SDK + initData auth (+ dev bypass) |
 | База данных | Drizzle schema + `drizzle/0000_init.sql` |
@@ -196,7 +183,7 @@ type User = {
 | Бизнес-операция | `server/services/` |
 | HTTP-эндпоинт | `app/api/<resource>/route.ts` |
 | Кнопка, инпут, карточка | `components/ui/` |
-| Карта, presence, навигация | `components/features/<feature>/` |
+| Presence и навигация | `components/features/<feature>/` |
 | Страница | `app/(app)/<route>/page.tsx` |
 | React-хук | `hooks/` |
 | Клиентский state | `store/` |
@@ -207,11 +194,10 @@ type User = {
 
 1. Подключить Telegram Mini App SDK (`lib/telegram`) и авторизацию через `initData`.
 2. Подключить БД (`lib/db`) и реализовать repositories для users, cafes, presence.
-3. Реализовать Map: кафе рядом + люди с `isVisibleOnMap`.
-4. Добавить кнопку «Я здесь» и таймер `sharedUntil`.
-5. Карточка человека с кнопкой «Написать в Telegram» (`getTelegramChatUrl`).
-6. Собрать Home-дайджест из cafes + presence + events.
-7. Покрыть `domain/` unit-тестами.
+3. Добавить кнопку «Я здесь» и таймер `sharedUntil`.
+4. Карточка человека с кнопкой «Написать в Telegram» (`getTelegramChatUrl`).
+5. Собрать Home-дайджест из cafes + presence + events.
+6. Покрыть `domain/` unit-тестами.
 
 ## Запуск
 
