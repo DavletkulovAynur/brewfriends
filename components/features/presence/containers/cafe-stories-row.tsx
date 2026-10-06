@@ -10,7 +10,6 @@ export function CafeStoriesRow() {
     <section className="flex flex-col gap-3" aria-busy={isLoading}>
       <div className="-mx-6 flex gap-4 overflow-x-auto px-6 pb-0.5">
         <CafeStoryCircle
-          name={ownStory.name}
           subtitle={ownStory.subtitle}
           initial={ownStory.initial}
           coverSrc={ownStory.coverSrc}

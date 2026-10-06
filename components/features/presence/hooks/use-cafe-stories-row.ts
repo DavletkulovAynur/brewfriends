@@ -18,7 +18,6 @@ export function useCafeStoriesRow() {
   const cafes = cafesQuery.data ?? [];
   const ownStory = {
     id: user?.id ?? "own",
-    name: "Ты",
     subtitle: getOwnSubtitle(
       ownPresenceQuery.data ?? { isAvailable: false, cafeId: null },
       cafes,
