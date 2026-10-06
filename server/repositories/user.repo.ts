@@ -7,7 +7,10 @@ import type { DbUser } from "@/lib/db/schema";
 function mapDbUser(row: DbUser): User {
   return {
     id: row.id,
-    name: row.name,
+    name: row.profileName ?? row.name,
+    status: row.status,
+    visibility: row.profileVisibility,
+    visibleToUserIds: row.visibleToUserIds,
     bio: row.bio ?? undefined,
     interests: row.interests ?? [],
     telegramUsername: row.telegramUsername ?? undefined,
@@ -19,6 +22,13 @@ export type UpsertTelegramUserInput = {
   telegramId: string;
   name: string;
   telegramUsername?: string;
+};
+
+export type UpdateUserProfileInput = {
+  name: string;
+  status: string;
+  visibility: User["visibility"];
+  visibleToUserIds: string[];
 };
 
 export const userRepository = {
@@ -72,7 +82,10 @@ export const userRepository = {
 
       const user: User = {
         id: existing?.id ?? crypto.randomUUID(),
-        name: input.name,
+        name: existing?.name ?? input.name,
+        status: existing?.status ?? "",
+        visibility: existing?.visibility ?? "everyone",
+        visibleToUserIds: existing?.visibleToUserIds ?? [],
         bio: existing?.bio,
         interests: existing?.interests ?? [],
         telegramUsername: input.telegramUsername,
@@ -110,11 +123,44 @@ export const userRepository = {
         id: crypto.randomUUID(),
         telegramId: input.telegramId,
         name: input.name,
+        profileName: null,
+        status: "",
+        profileVisibility: "everyone",
+        visibleToUserIds: [],
         telegramUsername: input.telegramUsername ?? null,
         interests: [],
       })
       .returning();
 
     return mapDbUser(created);
+  },
+
+  async updateProfile(
+    userId: string,
+    input: UpdateUserProfileInput,
+  ): Promise<User | null> {
+    if (!isDbConfigured()) {
+      const user = [...memoryStore.getUsers().values()].find(
+        (item) => item.id === userId,
+      );
+      if (!user) return null;
+
+      const updated = { ...user, ...input };
+      memoryStore.getUsers().set(userId, updated);
+      return updated;
+    }
+
+    const [updated] = await getDb()
+      .update(schema.users)
+      .set({
+        profileName: input.name,
+        status: input.status,
+        profileVisibility: input.visibility,
+        visibleToUserIds: input.visibleToUserIds,
+      })
+      .where(eq(schema.users.id, userId))
+      .returning();
+
+    return updated ? mapDbUser(updated) : null;
   },
 };

@@ -1,24 +1,20 @@
 import Image from "next/image";
 
-type CafeStoryCircleProps = {
-  name?: string;
-  subtitle?: string;
+type ProfileStoryCircleProps = {
+  name: string;
+  status?: string;
   initial: string;
   coverSrc: string;
   onClick?: () => void;
 };
 
-export function CafeStoryCircle({
+export function ProfileStoryCircle({
   name,
-  subtitle,
+  status,
   initial,
   coverSrc,
   onClick,
-}: CafeStoryCircleProps) {
-
-  const title = name ?? subtitle;
-  const description = name ? subtitle : undefined;
-
+}: ProfileStoryCircleProps) {
   return (
     <button
       type="button"
@@ -26,9 +22,7 @@ export function CafeStoryCircle({
       className="flex w-[76px] shrink-0 flex-col items-center gap-2"
     >
       <div className="relative h-[100px] w-[72px] rounded-full bg-zinc-300 p-[2px] dark:bg-zinc-700">
-        <div
-          className="relative h-full w-full overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-800"
-        >
+        <div className="relative h-full w-full overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-800">
           <Image
             src={coverSrc}
             alt=""
@@ -45,17 +39,12 @@ export function CafeStoryCircle({
       </div>
 
       <div className="w-full text-center">
-        {title && (
-          <p className="truncate text-xs font-medium">
-            {title}
-          </p>
-        )}
-
-        {description && (
+        <p className="truncate text-xs font-medium">{name}</p>
+        {status ? (
           <p className="truncate text-[10px] text-zinc-500 dark:text-zinc-400">
-            {description}
+            {status}
           </p>
-        )}
+        ) : null}
       </div>
     </button>
   );
