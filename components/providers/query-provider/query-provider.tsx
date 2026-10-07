@@ -3,6 +3,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState, type ReactNode } from "react";
 
+//FIXME: для чего нужен этот провайдер?
 export function QueryProvider({ children }: { children: ReactNode }) {
   const [queryClient] = useState(
     () =>
