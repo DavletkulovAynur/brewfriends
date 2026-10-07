@@ -1,1 +1,0 @@
-export const STORY_COVERS = ["/events/vertical2.png", "/events/test.png"];

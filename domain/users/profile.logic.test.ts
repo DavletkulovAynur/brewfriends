@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { canViewProfile } from "./profile.logic";
+import { canViewProfile, shuffleProfiles } from "./profile.logic";
 
 describe("canViewProfile", () => {
   it("shows public profiles to everyone", () => {
@@ -17,5 +17,18 @@ describe("canViewProfile", () => {
     expect(canViewProfile(profile, "viewer-1")).toBe(true);
     expect(canViewProfile(profile, "viewer-2")).toBe(false);
     expect(canViewProfile(profile)).toBe(false);
+  });
+});
+
+describe("shuffleProfiles", () => {
+  it("returns a shuffled copy without changing the source array", () => {
+    const profiles = ["first", "second", "third"];
+
+    expect(shuffleProfiles(profiles, () => 0)).toEqual([
+      "second",
+      "third",
+      "first",
+    ]);
+    expect(profiles).toEqual(["first", "second", "third"]);
   });
 });
