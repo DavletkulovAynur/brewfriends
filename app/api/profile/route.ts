@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { getSession } from "@/lib/auth/session";
-import { userService } from "@/server/services/user.service";
-import { profileService } from "@/server/services/profile.service";
+import { getSession } from "@/server/auth/session";
+import { userService } from "@/server/users/user.service";
+import { profileService } from "@/server/profile/profile.service";
 
 export async function GET() {
   const session = await getSession();

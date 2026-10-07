@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import {
   authService,
   isDevAuthBypassEnabled,
-} from "@/server/services/auth.service";
+} from "@/server/auth/auth.service";
 
 export async function POST(request: Request) {
   try {

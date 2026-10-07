@@ -1,17 +1,17 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import type { ProfileStoryPerson } from "../types/profile.types";
+import type { ProfileStory } from "@/domain/users/profile.types";
 
 export const profileStoriesQueryKey = ["profiles", "stories"] as const;
 
-async function fetchProfileStories(): Promise<ProfileStoryPerson[]> {
+async function fetchProfileStories(): Promise<ProfileStory[]> {
   const response = await fetch("/api/profiles/stories", {
     credentials: "include",
   });
   if (!response.ok) throw new Error("Не удалось загрузить профили");
 
-  const data = (await response.json()) as { people: ProfileStoryPerson[] };
+  const data = (await response.json()) as { people: ProfileStory[] };
   return data.people;
 }
 

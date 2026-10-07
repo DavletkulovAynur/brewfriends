@@ -1,10 +1,10 @@
-import { userRepository } from "@/server/repositories/user.repo";
+import { userRepository } from "@/server/users/user.repository";
 import {
   displayNameFromTelegramUser,
-  type TelegramWebAppUser,
   validateTelegramInitData,
-} from "@/lib/telegram/validate";
-import { setSessionCookie } from "@/lib/auth/session";
+} from "@/server/auth/telegram-init-data";
+import type { TelegramWebAppUser } from "@/server/auth/auth.types";
+import { setSessionCookie } from "@/server/auth/session";
 import type { User } from "@/domain/users/user.types";
 
 const DEV_USER: TelegramWebAppUser = {

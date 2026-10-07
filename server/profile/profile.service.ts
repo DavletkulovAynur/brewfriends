@@ -1,11 +1,9 @@
-import type { User } from "@/domain/users/user.types";
+import type { ProfileStory } from "@/domain/users/profile.types";
 import { canViewProfile } from "@/domain/users/profile.logic";
 import {
   userRepository,
-  type UpdateUserProfileInput,
-} from "@/server/repositories/user.repo";
-
-export type ProfileStory = Pick<User, "id" | "name" | "status">;
+} from "@/server/users/user.repository";
+import type { UpdateUserProfileInput } from "@/server/users/user.types";
 
 export const profileService = {
   async listVisibleStories(viewerId?: string): Promise<ProfileStory[]> {
