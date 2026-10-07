@@ -1,5 +1,5 @@
 import { scoreMatches } from "@/domain/matching/matching.logic";
-import { userRepository } from "@/server/repositories/user.repo";
+import { userRepository } from "@/server/users/user.repository";
 
 export const matchService = {
   async findMatches() {

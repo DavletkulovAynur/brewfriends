@@ -3,6 +3,10 @@ import type { User } from "@/domain/users/user.types";
 import { getDb, isDbConfigured, schema } from "@/lib/db";
 import { memoryStore } from "@/lib/db/memory";
 import type { DbUser } from "@/lib/db/schema";
+import type {
+  UpdateUserProfileInput,
+  UpsertTelegramUserInput,
+} from "@/server/users/user.types";
 
 function mapDbUser(row: DbUser): User {
   return {
@@ -17,19 +21,6 @@ function mapDbUser(row: DbUser): User {
     telegramId: row.telegramId,
   };
 }
-
-export type UpsertTelegramUserInput = {
-  telegramId: string;
-  name: string;
-  telegramUsername?: string;
-};
-
-export type UpdateUserProfileInput = {
-  name: string;
-  status: string;
-  visibility: User["visibility"];
-  visibleToUserIds: string[];
-};
 
 export const userRepository = {
   async findAll(): Promise<User[]> {

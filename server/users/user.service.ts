@@ -1,4 +1,4 @@
-import { userRepository } from "@/server/repositories/user.repo";
+import { userRepository } from "@/server/users/user.repository";
 
 export const userService = {
   async list() {

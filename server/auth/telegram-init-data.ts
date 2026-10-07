@@ -1,19 +1,8 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
-
-export type TelegramWebAppUser = {
-  id: number;
-  first_name: string;
-  last_name?: string;
-  username?: string;
-  language_code?: string;
-  photo_url?: string;
-};
-
-export type ValidatedInitData = {
-  user: TelegramWebAppUser;
-  authDate: number;
-  queryId?: string;
-};
+import type {
+  TelegramWebAppUser,
+  ValidatedInitData,
+} from "@/server/auth/auth.types";
 
 function buildDataCheckString(params: URLSearchParams): string {
   return [...params.entries()]

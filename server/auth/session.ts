@@ -1,10 +1,6 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
-
-export type SessionPayload = {
-  userId: string;
-  telegramId: string;
-};
+import type { SessionPayload } from "@/server/auth/auth.types";
 
 const COOKIE_NAME = "bf_session";
 const SESSION_MAX_AGE = 60 * 60 * 24 * 30;

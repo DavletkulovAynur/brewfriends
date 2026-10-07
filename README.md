@@ -2,8 +2,6 @@
 
 Приложение для поиска кофе-встреч и знакомств с людьми поблизости.
 
-Подробное описание архитектуры, структуры папок и текущего состояния — в [docs/PROJECT.md](docs/PROJECT.md).
-
 ## Getting Started
 
 First, run the development server:
