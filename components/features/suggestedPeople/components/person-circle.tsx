@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-type ProfileStoryCircleProps = {
+type PersonCircleProps = {
   name: string;
   status?: string;
   initial: string;
@@ -8,13 +8,13 @@ type ProfileStoryCircleProps = {
   onClick?: () => void;
 };
 
-export function ProfileStoryCircle({
+export function PersonCircle({
   name,
   status,
   initial,
   coverSrc,
   onClick,
-}: ProfileStoryCircleProps) {
+}: PersonCircleProps) {
   return (
     <button
       type="button"

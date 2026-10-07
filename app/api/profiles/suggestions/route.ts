@@ -4,6 +4,6 @@ import { profileService } from "@/server/profile/profile.service";
 
 export async function GET() {
   const session = await getSession();
-  const people = await profileService.listVisibleStories(session?.userId);
+  const people = await profileService.listSuggestedProfiles(session?.userId);
   return NextResponse.json({ people });
 }
