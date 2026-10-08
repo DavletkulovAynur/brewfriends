@@ -12,7 +12,12 @@ export const profileService = {
     const visibleProfiles = users
       .filter((user) => user.id !== viewerId && user.status.trim().length > 0)
       .filter((user) => canViewProfile(user, viewerId))
-      .map(({ id, name, status }) => ({ id, name, status }));
+      .map(({ id, name, status, telegramUsername }) => ({
+        id,
+        name,
+        status,
+        telegramUsername,
+      }));
 
     return shuffleProfiles(visibleProfiles);
   },
