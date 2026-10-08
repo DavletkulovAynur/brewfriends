@@ -5,6 +5,7 @@ type PersonCircleProps = {
   status?: string;
   initial: string;
   coverSrc: string;
+  avatarSrc?: string;
   onClick?: () => void;
 };
 
@@ -13,6 +14,7 @@ export function PersonCircle({
   status,
   initial,
   coverSrc,
+  avatarSrc,
   onClick,
 }: PersonCircleProps) {
   return (
@@ -27,14 +29,24 @@ export function PersonCircle({
             src={coverSrc}
             alt=""
             fill
-            unoptimized
             sizes="72px"
             className="object-cover"
           />
           <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-black/35 to-transparent" />
         </div>
-        <div className="absolute bottom-0 left-1/2 flex size-9 -translate-x-1/2 translate-y-1/4 items-center justify-center rounded-full border-2 border-white bg-zinc-100 text-sm font-semibold text-zinc-800 shadow-sm dark:border-zinc-950 dark:bg-zinc-800 dark:text-zinc-100">
-          {initial}
+        <div className="absolute bottom-0 left-1/2 flex size-9 -translate-x-1/2 translate-y-1/4 items-center justify-center overflow-hidden rounded-full border-2 border-white bg-zinc-100 text-sm font-semibold text-zinc-800 shadow-sm dark:border-zinc-950 dark:bg-zinc-800 dark:text-zinc-100">
+          {avatarSrc ? (
+            <Image
+              src={avatarSrc}
+              alt=""
+              fill
+              unoptimized
+              sizes="36px"
+              className="object-cover"
+            />
+          ) : (
+            initial
+          )}
         </div>
       </div>
 

@@ -9,7 +9,7 @@ export function useSuggestedPeopleRow() {
   const peopleQuery = useSuggestedPeopleQuery(status !== "loading");
   const ownProfile = {
     id: user?.id ?? "own",
-    name: user?.name ?? "Your profile",
+    name: user?.name ?? "Your prof",
     status: user?.status ?? "",
     initial: user?.name?.charAt(0) ?? "X",
     coverSrc: PROFILE_COVERS[0],

@@ -9,16 +9,13 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const [user, candidates] = await Promise.all([
-    userService.getById(session.userId),
-    profileService.listVisibilityCandidates(session.userId),
-  ]);
+  const user = await userService.getById(session.userId);
 
   if (!user) {
     return NextResponse.json({ error: "User not found" }, { status: 404 });
   }
 
-  return NextResponse.json({ user, candidates });
+  return NextResponse.json({ user });
 }
 
 export async function PATCH(request: Request) {

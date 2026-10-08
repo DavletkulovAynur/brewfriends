@@ -17,13 +17,6 @@ export const profileService = {
     return shuffleProfiles(visibleProfiles);
   },
 
-  async listVisibilityCandidates(userId: string) {
-    const users = await userRepository.findAll();
-    return users
-      .filter((user) => user.id !== userId)
-      .map(({ id, name }) => ({ id, name }));
-  },
-
   async update(userId: string, input: UpdateUserProfileInput) {
     const users = await userRepository.findAll();
     const knownUserIds = new Set(
