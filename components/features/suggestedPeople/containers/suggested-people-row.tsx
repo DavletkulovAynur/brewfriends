@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { PersonCircle } from "@/components/features/suggestedPeople/components/person-circle";
+import { SuggestedPersonSheet } from "@/components/features/suggestedPeople/components/suggested-person-sheet";
 import { useSuggestedPeopleRow } from "@/components/features/suggestedPeople/hooks/use-suggested-people-row";
 import { getTelegramUser } from "@/lib/telegram";
 
@@ -15,6 +16,7 @@ export function SuggestedPeopleRow() {
     isLoading,
   } = useSuggestedPeopleRow();
   const [avatarSrc, setAvatarSrc] = useState<string | undefined>();
+  const [selectedPerson, setSelectedPerson] = useState<(typeof people)[number] | null>(null);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -40,11 +42,19 @@ export function SuggestedPeopleRow() {
             status={person.status}
             initial={person.initial}
             coverSrc={person.coverSrc}
+            onClick={() => setSelectedPerson(person)}
           />
         ))}
       </div>
 
       {error ? <p className="text-center text-xs text-red-500">{error}</p> : null}
+
+      <SuggestedPersonSheet
+        person={selectedPerson}
+        onOpenChange={(open) => {
+          if (!open) setSelectedPerson(null);
+        }}
+      />
     </section>
   );
 }
