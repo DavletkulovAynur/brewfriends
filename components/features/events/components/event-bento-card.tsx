@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Clock, MapPin } from "lucide-react";
 import { formatEventDateLabel } from "@/domain/events/event.logic";
 import { cn } from "@/lib/utils";
@@ -28,12 +29,12 @@ const TILE_SLOTS: {
   variant: EventCardVariant;
   className: string;
 }[] = [
-  { variant: "compact", className: "col-start-1 row-start-1" },
-  { variant: "tall", className: "col-start-2 row-start-1 row-span-2" },
-  { variant: "tall", className: "col-start-1 row-start-2 row-span-2" },
-  { variant: "compact", className: "col-start-2 row-start-3" },
-  { variant: "wide", className: "col-span-2 row-start-4" },
-];
+    { variant: "compact", className: "col-start-1 row-start-1" },
+    { variant: "tall", className: "col-start-2 row-start-1 row-span-2" },
+    { variant: "tall", className: "col-start-1 row-start-2 row-span-2" },
+    { variant: "compact", className: "col-start-2 row-start-3" },
+    { variant: "wide", className: "col-span-2 row-start-4" },
+  ];
 
 function DateBadge({
   label,
@@ -100,8 +101,8 @@ function TallImageCard({
   className?: string;
 }) {
   return (
-    <button
-      type="button"
+    <Link
+      href={`/events/${event.id}`}
       className={cn(
         "relative h-full w-full overflow-hidden rounded-3xl text-left ring-1 ring-black/10 transition-transform active:scale-[0.98]",
         className,
@@ -132,7 +133,7 @@ function TallImageCard({
           />
         </div>
       </div>
-    </button>
+    </Link>
   );
 }
 
@@ -157,8 +158,8 @@ export function EventBentoCard({
 
   if (isWide) {
     return (
-      <button
-        type="button"
+      <Link
+        href={`/events/${event.id}`}
         className={cn(
           "flex h-full w-full flex-col justify-between gap-2 rounded-3xl p-3.5 text-left ring-1 transition-transform active:scale-[0.98]",
           colorStyles[event.color],
@@ -177,13 +178,13 @@ export function EventBentoCard({
           location={event.location}
           locationClassName="truncate"
         />
-      </button>
+      </Link>
     );
   }
 
   return (
-    <button
-      type="button"
+    <Link
+      href={`/events/${event.id}`}
       className={cn(
         "flex h-full w-full flex-col gap-2 rounded-3xl p-3.5 text-left ring-1 transition-transform active:scale-[0.98]",
         colorStyles[event.color],
@@ -208,7 +209,7 @@ export function EventBentoCard({
           locationClassName={isTall ? "line-clamp-2" : "line-clamp-1"}
         />
       </div>
-    </button>
+    </Link>
   );
 }
 

@@ -24,6 +24,6 @@ export function useSuggestedPeopleRow() {
     ownProfile,
     people,
     error: peopleQuery.error?.message,
-    isLoading: peopleQuery.isLoading,
+    isLoading: status === "loading" || peopleQuery.isLoading,
   };
 }
