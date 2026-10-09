@@ -1,3 +1,4 @@
+import { sql } from "drizzle-orm";
 import {
   pgTable,
   text,
@@ -30,3 +31,23 @@ export const users = pgTable(
 );
 
 export type DbUser = typeof users.$inferSelect;
+
+export const events = pgTable("events", {
+  id: text("id")
+    .primaryKey()
+    .default(sql`gen_random_uuid()::text`),
+  title: text("title").notNull(),
+  description: text("description").notNull().default(""),
+  location: text("location").notNull(),
+  startsAt: timestamp("starts_at", { withTimezone: true }).notNull(),
+  endsAt: timestamp("ends_at", { withTimezone: true }),
+  imageUrl: text("image_url"),
+  color: text("color", { enum: ["amber", "sky", "rose"] })
+    .notNull()
+    .default("amber"),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+});
+
+export type DbEvent = typeof events.$inferSelect;
