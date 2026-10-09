@@ -12,6 +12,7 @@ export type BentoEvent = {
   location: string;
   color: "amber" | "sky" | "rose";
   imageUrl?: string;
+  description?: string;
 };
 
 export type EventCardVariant = "compact" | "tall" | "wide";
@@ -104,7 +105,7 @@ function TallImageCard({
     <Link
       href={`/events/${event.id}`}
       className={cn(
-        "relative h-full w-full overflow-hidden rounded-3xl text-left ring-1 ring-black/10 transition-transform active:scale-[0.98]",
+        "relative h-full w-full overflow-hidden rounded-3xl bg-zinc-300 text-left ring-1 ring-black/10 transition-transform active:scale-[0.98] dark:bg-zinc-800",
         className,
       )}
     >
@@ -113,6 +114,8 @@ function TallImageCard({
         alt=""
         fill
         sizes="(max-width: 768px) 45vw, 200px"
+        loading="eager"
+        decoding="sync"
         className="object-cover"
       />
 
@@ -123,7 +126,7 @@ function TallImageCard({
 
         <div className="flex flex-col gap-2">
           <h3 className="line-clamp-3 text-lg font-semibold leading-5 text-white">
-            {event.title}
+            {event.title} 1
           </h3>
           <EventMeta
             time={event.time}

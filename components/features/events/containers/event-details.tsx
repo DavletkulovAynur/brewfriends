@@ -66,6 +66,12 @@ export function EventDetails({ event }: EventDetailsProps) {
                 </p>
             </div>
 
+            {event.description ? (
+                <p className="whitespace-pre-line text-sm leading-6 text-zinc-700 dark:text-zinc-300">
+                    {event.description}
+                </p>
+            ) : null}
+
             <button
                 type="button"
                 onClick={() => shareEventInTelegram(event)}
