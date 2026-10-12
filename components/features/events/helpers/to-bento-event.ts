@@ -1,5 +1,5 @@
 import type { Event } from "@/domain/events/event.types";
-import type { BentoEvent } from "@/components/features/events/components/event-bento-card";
+import type { BentoEvent } from "@/components/features/events/types/bento-event.types";
 
 const pad = (value: number) => String(value).padStart(2, "0");
 const formatTime = (date: Date) => `${pad(date.getHours())}:${pad(date.getMinutes())}`;

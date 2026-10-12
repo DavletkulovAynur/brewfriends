@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Clock, MapPin } from "lucide-react";
 import { formatEventDateLabel } from "@/domain/events/event.logic";
-import type { BentoEvent } from "./event-bento-card";
+import type { BentoEvent } from "@/components/features/events/types/bento-event.types";
 
 type EventListCardProps = {
   event: BentoEvent;
@@ -17,7 +17,7 @@ export function EventListCard({ event }: EventListCardProps) {
           <h2 className="min-w-0 flex-1 text-base font-semibold leading-5">
             {event.title}
           </h2>
-          <span className="shrink-0 rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-600 dark:bg-zinc-900 dark:text-zinc-400">
+          <span className="shrink-0 rounded-lg bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-600 dark:bg-zinc-900 dark:text-zinc-400">
             {dateLabel}
           </span>
         </div>
