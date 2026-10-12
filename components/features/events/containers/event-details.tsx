@@ -9,7 +9,7 @@ import {
     getTelegramWebApp,
     shareEventInTelegram,
 } from "@/lib/telegram";
-import type { BentoEvent } from "../components/event-bento-card";
+import type { BentoEvent } from "@/components/features/events/types/bento-event.types";
 
 type EventDetailsProps = {
     event: BentoEvent;
@@ -49,7 +49,7 @@ export function EventDetails({ event }: EventDetailsProps) {
             )}
 
             <div className="flex flex-col gap-3">
-                <span className="w-fit rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-600 dark:bg-zinc-900 dark:text-zinc-400">
+                <span className="w-fit rounded-lg bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-600 dark:bg-zinc-900 dark:text-zinc-400">
                     {formatEventDateLabel(event.date)}
                 </span>
                 <h1 className="text-2xl font-semibold leading-7">{event.title}</h1>
