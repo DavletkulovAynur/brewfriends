@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { MapPin } from "lucide-react";
 import { formatEventDateLabel } from "@/domain/events/event.logic";
 import { cn } from "@/lib/utils";
 import { DateTimeBadges } from "@/components/features/events/components/event-card-parts";
@@ -39,14 +40,24 @@ export function EventBentoCard({ event }: { event: BentoEvent }) {
           time={event.time}
           onImage={hasImage}
         />
-        <h3
-          className={cn(
-            "line-clamp-3 text-lg font-semibold leading-5",
-            hasImage && "mt-auto text-white",
-          )}
-        >
-          {event.title}
-        </h3>
+        <div className={cn("flex flex-col gap-1.5", hasImage && "mt-auto")}>
+          <h3
+            className={cn(
+              "line-clamp-3 text-xl font-semibold leading-5",
+              hasImage && "text-white",
+            )}
+          >
+            {event.title}
+          </h3>
+          <p
+            className={cn(
+              "flex items-center gap-1.5 text-xs leading-4",
+              hasImage ? "text-white/80" : "text-zinc-600 dark:text-zinc-400",
+            )}
+          >
+            <span className="truncate">{event.location}</span>
+          </p>
+        </div>
       </div>
     </Link>
   );
