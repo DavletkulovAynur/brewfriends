@@ -82,4 +82,6 @@ export function readyTelegramWebApp() {
 
   webApp.ready();
   webApp.expand();
+  // Prevents swipe-down-to-close from hijacking gestures inside the app.
+  webApp.disableVerticalSwipes?.();
 }

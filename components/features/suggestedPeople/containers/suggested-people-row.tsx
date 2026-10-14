@@ -26,7 +26,7 @@ export function SuggestedPeopleRow() {
 
   return (
     <section className="flex flex-col gap-3" aria-busy={isLoading}>
-      <div className="-mx-6 flex gap-4 overflow-x-auto px-6 pb-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div className="-mx-4 flex gap-4 overflow-x-auto px-4 pb-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {isLoading ? (
           Array.from({ length: 5 }).map((_, index) => (
             <div key={index} className="flex w-[76px] shrink-0 flex-col items-center gap-2">

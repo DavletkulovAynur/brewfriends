@@ -17,23 +17,12 @@ export function FilmsList() {
             <div className="relative ">
                 <div
                     ref={sliderRef}
-                    className="flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                    className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain [-webkit-overflow-scrolling:touch] px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                 >
                     {WEEK_FILMS.map((film) => (
                         <FilmCard key={film.id} film={film} />
                     ))}
                 </div>
-                {/* <button
-                    type="button"
-                    aria-label="Следующие фильмы"
-                    onClick={() => {
-                        const slider = sliderRef.current;
-                        slider?.scrollTo({ left: slider.scrollLeft + slider.clientWidth * 0.8, behavior: "smooth" });
-                    }}
-                    className="absolute right-2 top-[38%] z-10 flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-white text-foreground shadow-md ring-1 ring-black/5 transition-transform hover:scale-105 active:scale-95"
-                >
-                    <ChevronRight aria-hidden="true" size={24} strokeWidth={2.5} />
-                </button> */}
             </div>
         </section>
     );

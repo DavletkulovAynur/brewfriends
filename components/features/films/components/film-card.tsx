@@ -14,7 +14,7 @@ export function FilmCard({ film }: { film: Film }) {
                 />
             </div>
             <div className="flex flex-col gap-1">
-                <h3 className="text-base font-bold leading-tight">{film.title}</h3>
+                <h3 className="truncate text-base font-bold leading-tight">{film.title}</h3>
                 <p className="text-sm  text-muted-foreground">{film.dateLabel}</p>
                 <p className="text-sm  text-muted-foreground font-bold" aria-label={`Время показов: ${film.showtimes.join(", ")}`}>
                     {film.showtimes.join(" · ")}
