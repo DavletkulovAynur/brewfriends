@@ -10,7 +10,7 @@ const sql = neon(process.env.DATABASE_URL);
 const seed = [
   { id: "seed-1", title: "Coffee & Code", location: "Starbucks, Невский", color: "amber", day: 1 + 7, hour: 14, hours: 1.5, imageUrl: "/events/1.jpg", description: "Работаем и общаемся за кофе. Берите ноутбуки." },
   { id: "seed-2", title: "Morning Brew", location: "Double B", color: "sky", day: 2 + 7, hour: 10, hours: 1, imageUrl: "/events/2.jpg", description: "Утренняя встреча за кофе перед рабочим днём." },
-  { id: "seed-3", title: "Latte & Learn", location: "Surf Coffee", color: "rose", day: 3 + 7, hour: 18, hours: 1, imageUrl: "/events/3.jpg", description: "Короткие доклады участников и обсуждение." },
+  { id: "seed-3", title: "Latte & Learn", location: "Surf Coffee", color: "rose", day: 3 + 7, hour: 18, hours: 1, imageUrl: "/events/3.jpg", videoUrl: "/events/test.mp4", description: "Короткие доклады участников и обсуждение." },
   { id: "seed-4", title: "Espresso Talks", location: "Skuratov Coffee", color: "amber", day: 4 + 7, hour: 12, hours: 1, imageUrl: "/events/4.jpg", description: "Разговоры о кофе и не только." },
   { id: "seed-5", title: "Flat White Friday", location: "Starbucks, Московский", color: "sky", day: 5 + 7, hour: 17.5, hours: 1.5, imageUrl: "/events/5.jpg", description: "Пятничная встреча, чтобы завершить неделю." },
   { id: "seed-6", title: "Cappuccino & Chat", location: "Double B", color: "rose", day: 6 + 7, hour: 11, hours: 1.5, imageUrl: "/events/6.jpg", description: "Неформальное общение за капучино." },
@@ -26,9 +26,9 @@ function at(day, hour) {
 
 for (const event of seed) {
   await sql.query(
-    `INSERT INTO events (id, title, description, location, starts_at, ends_at, image_url, color)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-     ON CONFLICT (id) DO UPDATE SET image_url = EXCLUDED.image_url, starts_at = EXCLUDED.starts_at, ends_at = EXCLUDED.ends_at`,
+    `INSERT INTO events (id, title, description, location, starts_at, ends_at, image_url, video_url, color)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+     ON CONFLICT (id) DO UPDATE SET image_url = EXCLUDED.image_url, video_url = EXCLUDED.video_url, starts_at = EXCLUDED.starts_at, ends_at = EXCLUDED.ends_at`,
     [
       event.id,
       event.title,
@@ -37,6 +37,7 @@ for (const event of seed) {
       at(event.day, event.hour).toISOString(),
       at(event.day, event.hour + event.hours).toISOString(),
       event.imageUrl ?? null,
+      event.videoUrl ?? null,
       event.color,
     ],
   );

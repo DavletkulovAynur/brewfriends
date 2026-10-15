@@ -8,5 +8,6 @@ export type Event = {
   startsAt: string;
   endsAt: string | null;
   imageUrl: string | null;
+  videoUrl: string | null;
   color: EventColor;
 };

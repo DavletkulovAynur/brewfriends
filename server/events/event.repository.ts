@@ -13,6 +13,7 @@ function toEvent(row: typeof events.$inferSelect): Event {
     startsAt: row.startsAt.toISOString(),
     endsAt: row.endsAt?.toISOString() ?? null,
     imageUrl: row.imageUrl,
+    videoUrl: row.videoUrl,
     color: row.color,
   };
 }

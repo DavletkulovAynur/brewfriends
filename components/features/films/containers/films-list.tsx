@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef } from "react";
-import { ChevronRight } from "lucide-react";
 import { FilmCard } from "@/components/features/films/components/film-card";
 import { WEEK_FILMS } from "@/components/features/films/constants/films";
 
@@ -17,7 +16,7 @@ export function FilmsList() {
             <div className="relative ">
                 <div
                     ref={sliderRef}
-                    className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain [-webkit-overflow-scrolling:touch] px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                    className="-mr-4 flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain [-webkit-overflow-scrolling:touch] px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                 >
                     {WEEK_FILMS.map((film) => (
                         <FilmCard key={film.id} film={film} />
