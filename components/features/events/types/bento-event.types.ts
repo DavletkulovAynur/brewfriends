@@ -6,5 +6,6 @@ export type BentoEvent = {
   location: string;
   color: "amber" | "sky" | "rose";
   imageUrl?: string;
+  videoUrl?: string;
   description?: string;
 };

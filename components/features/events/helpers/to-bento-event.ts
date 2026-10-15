@@ -18,5 +18,6 @@ export function toBentoEvent(event: Event): BentoEvent {
     location: event.location,
     color: event.color,
     imageUrl: event.imageUrl ?? undefined,
+    videoUrl: event.videoUrl ?? undefined,
   };
 }

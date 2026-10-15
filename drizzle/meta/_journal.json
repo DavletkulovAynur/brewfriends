@@ -22,6 +22,13 @@
       "when": 1791326400000,
       "tag": "0002_events",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1792045463327,
+      "tag": "0003_early_guardsmen",
+      "breakpoints": true
     }
   ]
 }

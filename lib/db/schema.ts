@@ -42,6 +42,7 @@ export const events = pgTable("events", {
   startsAt: timestamp("starts_at", { withTimezone: true }).notNull(),
   endsAt: timestamp("ends_at", { withTimezone: true }),
   imageUrl: text("image_url"),
+  videoUrl: text("video_url"),
   color: text("color", { enum: ["amber", "sky", "rose"] })
     .notNull()
     .default("amber"),
