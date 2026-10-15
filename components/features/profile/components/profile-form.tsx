@@ -2,6 +2,7 @@ import type { FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
+import { ProfileHero } from "@/components/features/profile/components/profile-hero";
 import type { ProfileFormState } from "@/components/features/profile/types/profile.types";
 
 type ProfileFormProps = {
@@ -27,9 +28,7 @@ export function ProfileForm({
 }: ProfileFormProps) {
     return (
         <form onSubmit={onSubmit} className="flex flex-1 flex-col gap-8 p-6 pt-4">
-            <header>
-                <h1 className="text-2xl font-semibold">Profile</h1>
-            </header>
+            <ProfileHero name={form.name} />
 
             <section className="flex flex-col gap-4 border-b border-border pb-6">
                 <label className="flex flex-col gap-2 text-sm font-medium">

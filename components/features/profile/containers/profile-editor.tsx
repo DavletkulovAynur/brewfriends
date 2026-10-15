@@ -5,6 +5,7 @@ import { useAuth } from "@/components/providers/telegram-auth-provider";
 import { useProfileQuery } from "@/components/features/profile/api/profile.query";
 import { useUpdateProfileMutation } from "@/components/features/profile/api/profile.mutation";
 import { ProfileForm } from "@/components/features/profile/components/profile-form";
+import { ProfileLoadingSkeleton } from "@/components/features/profile/components/profile-loading-skeleton";
 import {
     toProfileFormState,
     toProfileUpdatePayload,
@@ -39,7 +40,7 @@ export function ProfileEditor() {
     }
 
     if (authStatus === "loading") {
-        return <p className="p-6 text-sm text-muted-foreground">Loading profile...</p>;
+        return <ProfileLoadingSkeleton />;
     }
 
     if (authStatus !== "authenticated") {
