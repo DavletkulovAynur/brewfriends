@@ -48,7 +48,7 @@ export function ProfileEditor() {
     }
 
     if (profileQuery.isLoading) {
-        return <p className="p-6 text-sm text-muted-foreground">Loading profile...</p>;
+        return <ProfileLoadingSkeleton />;
     }
 
     if (!form) {
