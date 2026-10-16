@@ -6,15 +6,21 @@ const formatTime = (date: Date) => `${pad(date.getHours())}:${pad(date.getMinute
 
 // Date and time are shown in the viewer's local timezone.
 export function toBentoEvent(event: Event): BentoEvent {
-  const start = new Date(event.startsAt);
+  const start = event.startsAt ? new Date(event.startsAt) : null;
   const end = event.endsAt ? new Date(event.endsAt) : null;
 
   return {
     id: event.id,
     title: event.title,
     description: event.description || undefined,
-    date: `${start.getFullYear()}-${pad(start.getMonth() + 1)}-${pad(start.getDate())}`,
-    time: end ? `${formatTime(start)}–${formatTime(end)}` : formatTime(start),
+    date: start
+      ? `${start.getFullYear()}-${pad(start.getMonth() + 1)}-${pad(start.getDate())}`
+      : null,
+    time: start
+      ? end
+        ? `${formatTime(start)}–${formatTime(end)}`
+        : formatTime(start)
+      : null,
     location: event.location,
     color: event.color,
     imageUrl: event.imageUrl ?? undefined,

@@ -39,13 +39,16 @@ export const events = pgTable("events", {
   title: text("title").notNull(),
   description: text("description").notNull().default(""),
   location: text("location").notNull(),
-  startsAt: timestamp("starts_at", { withTimezone: true }).notNull(),
+  startsAt: timestamp("starts_at", { withTimezone: true }),
   endsAt: timestamp("ends_at", { withTimezone: true }),
   imageUrl: text("image_url"),
   videoUrl: text("video_url"),
   color: text("color", { enum: ["amber", "sky", "rose"] })
     .notNull()
     .default("amber"),
+  creatorId: text("creator_id").references(() => users.id, {
+    onDelete: "set null",
+  }),
   createdAt: timestamp("created_at", { withTimezone: true })
     .notNull()
     .defaultNow(),

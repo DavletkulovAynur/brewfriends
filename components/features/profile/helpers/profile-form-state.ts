@@ -14,7 +14,6 @@ export function toProfileUpdatePayload(
   form: ProfileFormState,
 ): ProfileUpdatePayload {
   return {
-    name: form.name,
     status: form.status,
     visibility: form.isVisible ? "everyone" : "selected",
     visibleToUserIds: [],

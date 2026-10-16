@@ -56,17 +56,19 @@ export function EventDetails({ event }: EventDetailsProps) {
             </div>
 
             <div className="flex flex-col gap-3 rounded-2xl border border-zinc-200 p-4 text-sm dark:border-zinc-800">
-                <p className="flex items-center gap-3">
-                    <Clock className="size-4 shrink-0 text-zinc-500" strokeWidth={1.5} />
-                    {event.time}
-                </p>
+                {event.time ? (
+                    <p className="flex items-center gap-3">
+                        <Clock className="size-4 shrink-0 text-zinc-500" strokeWidth={1.5} />
+                        {event.time}
+                    </p>
+                ) : null}
                 <p className="flex items-center gap-3">
                     <MapPin className="size-4 shrink-0 text-zinc-500" strokeWidth={1.5} />
                     {event.location}
                 </p>
             </div>
 
-            {event.description ? (
+            {event.description && event.description !== event.title ? (
                 <p className="whitespace-pre-line text-sm leading-6 text-zinc-700 dark:text-zinc-300">
                     {event.description}
                 </p>

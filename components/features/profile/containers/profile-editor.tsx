@@ -62,7 +62,6 @@ export function ProfileEditor() {
             saved={saved}
             isSaving={updateProfile.isPending}
             onSubmit={saveProfile}
-            onNameChange={(name) => updateDraft({ name })}
             onStatusChange={(status) => updateDraft({ status })}
             onVisibilityChange={(isVisible) => updateDraft({ isVisible })}
         />

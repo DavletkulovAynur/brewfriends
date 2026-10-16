@@ -2,6 +2,10 @@ import { describe, expect, it } from "vitest";
 import { formatEventDateLabel } from "./event.logic";
 
 describe("formatEventDateLabel", () => {
+  it("labels events without a date", () => {
+    expect(formatEventDateLabel(null)).toBe("Без даты");
+  });
+
   const now = new Date(2026, 8, 29, 12);
 
   it("labels an event today", () => {

@@ -7,7 +7,9 @@ function parseEventDate(isoDate: string): Date {
   return new Date(year, month - 1, day);
 }
 
-export function formatEventDateLabel(isoDate: string, now = new Date()): string {
+export function formatEventDateLabel(isoDate: string | null, now = new Date()): string {
+  if (!isoDate) return "Без даты";
+
   const eventDate = toDateOnly(parseEventDate(isoDate));
   const today = toDateOnly(now);
   const tomorrow = new Date(today);

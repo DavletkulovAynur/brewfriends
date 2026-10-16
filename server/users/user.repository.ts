@@ -11,7 +11,7 @@ import type {
 function mapDbUser(row: DbUser): User {
   return {
     id: row.id,
-    name: row.profileName ?? row.name,
+    name: row.name,
     status: row.status,
     visibility: row.profileVisibility,
     visibleToUserIds: row.visibleToUserIds,
@@ -144,7 +144,6 @@ export const userRepository = {
     const [updated] = await getDb()
       .update(schema.users)
       .set({
-        profileName: input.name,
         status: input.status,
         profileVisibility: input.visibility,
         visibleToUserIds: input.visibleToUserIds,

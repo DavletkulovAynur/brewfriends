@@ -29,6 +29,13 @@
       "when": 1792045463327,
       "tag": "0003_early_guardsmen",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1792128742584,
+      "tag": "0004_cloudy_anthem",
+      "breakpoints": true
     }
   ]
 }

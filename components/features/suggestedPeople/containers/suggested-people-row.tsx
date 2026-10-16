@@ -40,7 +40,6 @@ export function SuggestedPeopleRow() {
               name={ownProfile.name}
               status={ownProfile.status}
               initial={ownProfile.initial}
-              coverSrc={ownProfile.coverSrc}
               avatarSrc={avatarSrc}
               onClick={() => router.push("/settings")}
             />
@@ -51,7 +50,6 @@ export function SuggestedPeopleRow() {
                 name={person.name}
                 status={person.status}
                 initial={person.initial}
-                coverSrc={person.coverSrc}
                 onClick={() => setSelectedPerson(person)}
               />
             ))}

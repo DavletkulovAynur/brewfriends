@@ -7,7 +7,6 @@ export type ProfileFormState = {
 };
 
 export type ProfileUpdatePayload = {
-  name: string;
   status: string;
   visibility: ProfileVisibility;
   visibleToUserIds: string[];

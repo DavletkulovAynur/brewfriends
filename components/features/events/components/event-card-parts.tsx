@@ -26,14 +26,17 @@ export function DateTimeBadges({
     onImage = false,
 }: {
     dateLabel: string;
-    time: string;
+    time: string | null;
     onImage?: boolean;
 }) {
     // `time` is a range like "14:00–15:30"; only the start is shown.
-    const startTime = time.split("–")[0];
+    const startTime = time?.split("–")[0];
 
     return (
-        <DateBadge label={`${dateLabel} / ${startTime}`} onImage={onImage} />
+        <DateBadge
+            label={startTime ? `${dateLabel} / ${startTime}` : dateLabel}
+            onImage={onImage}
+        />
     );
 }
 
@@ -43,7 +46,7 @@ export function EventMeta({
     locationClassName,
     onImage = false,
 }: {
-    time: string;
+    time: string | null;
     location: string;
     locationClassName?: string;
     onImage?: boolean;
@@ -55,10 +58,12 @@ export function EventMeta({
                 onImage ? "text-white/90" : "text-zinc-800/90",
             )}
         >
-            <p className="flex items-center gap-2">
-                <Clock className="size-3.5 shrink-0 opacity-80" strokeWidth={2} />
-                <span>{time}</span>
-            </p>
+            {time ? (
+                <p className="flex items-center gap-2">
+                    <Clock className="size-3.5 shrink-0 opacity-80" strokeWidth={2} />
+                    <span>{time}</span>
+                </p>
+            ) : null}
             <p className="flex items-center gap-2">
                 <MapPin className="size-3.5 shrink-0 opacity-80" strokeWidth={2} />
                 <span className={locationClassName}>{location}</span>
