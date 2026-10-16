@@ -7,29 +7,25 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { getTelegramUser } from "@/lib/telegram";
 
-const coverColors = [
-    "bg-sky-300",
-    "bg-rose-300",
-    "bg-amber-300",
-    "bg-emerald-300",
-    "bg-indigo-300",
-    "bg-orange-300",
-];
-
 export function ProfileHero({ name }: { name: string }) {
     const router = useRouter();
-    const [coverColor, setCoverColor] = useState(coverColors[0]);
     const [avatarUrl, setAvatarUrl] = useState<string>();
 
     useEffect(() => {
         // eslint-disable-next-line react-hooks/set-state-in-effect
-        setCoverColor(coverColors[Math.floor(Math.random() * coverColors.length)]);
         setAvatarUrl(getTelegramUser()?.photoUrl);
     }, []);
 
     return (
         <section className="-mx-3 flex flex-col items-center pb-2 text-center">
-            <div className={`relative h-44 w-full rounded-[2rem] ${coverColor}`}>
+            <div className="relative h-44 w-full overflow-hidden rounded-[2rem] bg-muted">
+                <Image
+                    src="/cover_user.jpg"
+                    alt=""
+                    fill
+                    sizes="(max-width: 768px) calc(100vw - 24px), 600px"
+                    className="object-cover"
+                />
                 <Button
                     type="button"
                     variant="ghost"

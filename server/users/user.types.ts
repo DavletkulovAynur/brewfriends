@@ -7,7 +7,6 @@ export type UpsertTelegramUserInput = {
 };
 
 export type UpdateUserProfileInput = {
-  name: string;
   status: string;
   visibility: User["visibility"];
   visibleToUserIds: string[];

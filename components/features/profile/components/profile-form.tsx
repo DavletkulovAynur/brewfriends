@@ -1,4 +1,6 @@
 import type { FormEvent } from "react";
+import Link from "next/link";
+import { ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
@@ -11,7 +13,6 @@ type ProfileFormProps = {
     saved: boolean;
     isSaving: boolean;
     onSubmit: (event: FormEvent<HTMLFormElement>) => void;
-    onNameChange: (name: string) => void;
     onStatusChange: (status: string) => void;
     onVisibilityChange: (isVisible: boolean) => void;
 };
@@ -22,41 +23,39 @@ export function ProfileForm({
     saved,
     isSaving,
     onSubmit,
-    onNameChange,
     onStatusChange,
     onVisibilityChange,
 }: ProfileFormProps) {
     return (
-        <form onSubmit={onSubmit} className="flex flex-1 flex-col gap-8 p-6 pt-4">
+        <form onSubmit={onSubmit} className="flex flex-1 flex-col gap-5 p-6 pt-4">
             <ProfileHero name={form.name} />
 
-            <section className="flex flex-col gap-4 border-b border-border pb-6">
-                <label className="flex flex-col gap-2 text-sm font-medium">
-                    Name
+            <section className="flex flex-col gap-1">
+                <label className="flex flex-col bg-white rounded-xl">
+                    <span className="sr-only">Status</span>
                     <Input
-                        autoComplete="name"
-                        maxLength={40}
-                        required
-                        value={form.name}
-                        onChange={(event) => onNameChange(event.target.value)}
-                    />
-                </label>
-
-                <label className="flex flex-col gap-2 text-sm font-medium">
-                    Status
-                    <Input
+                        aria-label="Status"
+                        className="h-16 rounded-full border-transparent bg-white px-6 text-lg shadow-none"
                         maxLength={60}
-                        placeholder="Coffee and a good book"
+                        placeholder="Status."
                         value={form.status}
                         onChange={(event) => onStatusChange(event.target.value)}
                     />
-                    <span className="text-xs font-normal text-muted-foreground">
-                        Shown below your name in stories. Up to 60 characters.
-                    </span>
                 </label>
+                <span className="pl-4 text-sm font-normal text-muted-foreground">
+                    Status
+                </span>
             </section>
 
-            <section className="flex flex-col gap-4 border-b border-border pb-6">
+            <Link
+                href="/events/create"
+                className="flex min-h-14 items-center justify-between gap-4 rounded-xl bg-white px-4 text-sm font-semibold transition-colors hover:bg-white/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+                <span>Создать событие</span>
+                <ChevronRight className="size-5 text-muted-foreground" aria-hidden="true" />
+            </Link>
+
+            <section className="flex flex-col gap-4 rounded-xl bg-white p-4">
                 <div className="flex items-center justify-between gap-4">
                     <div>
                         <h2 className="text-sm font-semibold">Profile visibility</h2>
@@ -76,7 +75,7 @@ export function ProfileForm({
             {saved ? <p role="status" className="text-sm text-muted-foreground">Profile saved.</p> : null}
 
             <div>
-                <Button type="submit" disabled={isSaving || !form.name.trim()}>
+                <Button type="submit" disabled={isSaving}>
                     {isSaving ? "Saving..." : "Save profile"}
                 </Button>
             </div>

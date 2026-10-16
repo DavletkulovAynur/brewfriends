@@ -27,7 +27,6 @@ describe("profile form visibility", () => {
         isVisible: false,
       }),
     ).toEqual({
-      name: "Aynur",
       status: "Coffee",
       visibility: "selected",
       visibleToUserIds: [],
@@ -42,7 +41,6 @@ describe("profile form visibility", () => {
         isVisible: true,
       }),
     ).toEqual({
-      name: "Aynur",
       status: "Coffee",
       visibility: "everyone",
       visibleToUserIds: [],

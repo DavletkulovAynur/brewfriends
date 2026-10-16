@@ -1,6 +1,6 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { Event } from "@/domain/events/event.types";
 import { toBentoEvent } from "@/components/features/events/helpers/to-bento-event";
 
@@ -27,4 +27,32 @@ export function useEventsQuery() {
 
 export function useEventQuery(id: string) {
   return useQuery({ queryKey: ["events", id], queryFn: () => fetchEvent(id) });
+}
+
+async function createEvent(input: { description: string; startsAt: string | null }) {
+  const response = await fetch("/api/events", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify(input),
+  });
+  const data = (await response.json()) as { event?: Event; error?: string };
+
+  if (!response.ok || !data.event) {
+    throw new Error(data.error ?? "Не удалось создать встречу");
+  }
+
+  return data.event;
+}
+
+export function useCreateEventMutation() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: createEvent,
+    onSuccess: async (event) => {
+      await queryClient.invalidateQueries({ queryKey: ["events"] });
+      queryClient.setQueryData(["events", event.id], toBentoEvent(event));
+    },
+  });
 }

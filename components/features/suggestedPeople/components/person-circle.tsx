@@ -4,7 +4,6 @@ type PersonCircleProps = {
   name: string;
   status?: string;
   initial: string;
-  coverSrc: string;
   avatarSrc?: string;
   onClick?: () => void;
 };
@@ -13,7 +12,6 @@ export function PersonCircle({
   name,
   status,
   initial,
-  coverSrc,
   avatarSrc,
   onClick,
 }: PersonCircleProps) {
@@ -26,7 +24,7 @@ export function PersonCircle({
       <div className="relative h-[100px] w-[72px] rounded-full bg-zinc-300 p-[2px] dark:bg-zinc-700">
         <div className="relative h-full w-full overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-800">
           <Image
-            src={coverSrc}
+            src="/cover_user.jpg"
             alt=""
             fill
             sizes="72px"

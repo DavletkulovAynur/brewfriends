@@ -23,10 +23,12 @@ export function EventListCard({ event }: EventListCardProps) {
         </div>
 
         <div className="flex flex-col gap-1 text-xs leading-4 text-zinc-600 dark:text-zinc-400">
-          <p className="flex items-center gap-2">
-            <Clock className="size-3.5 shrink-0" strokeWidth={1.5} />
-            {event.time}
-          </p>
+          {event.time ? (
+            <p className="flex items-center gap-2">
+              <Clock className="size-3.5 shrink-0" strokeWidth={1.5} />
+              {event.time}
+            </p>
+          ) : null}
           <p className="flex items-center gap-2">
             <MapPin className="size-3.5 shrink-0" strokeWidth={1.5} />
             {event.location}

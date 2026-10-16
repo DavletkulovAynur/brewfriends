@@ -26,16 +26,12 @@ export async function PATCH(request: Request) {
 
   try {
     const body = (await request.json()) as {
-      name?: unknown;
       status?: unknown;
       visibility?: unknown;
       visibleToUserIds?: unknown;
     };
 
     if (
-      typeof body.name !== "string" ||
-      body.name.trim().length === 0 ||
-      body.name.trim().length > 40 ||
       typeof body.status !== "string" ||
       body.status.trim().length > 60 ||
       (body.visibility !== "everyone" && body.visibility !== "selected") ||
@@ -47,7 +43,6 @@ export async function PATCH(request: Request) {
     }
 
     const user = await profileService.update(session.userId, {
-      name: body.name.trim(),
       status: body.status.trim(),
       visibility: body.visibility,
       visibleToUserIds: body.visibleToUserIds,

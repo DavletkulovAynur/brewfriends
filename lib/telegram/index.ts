@@ -59,13 +59,14 @@ function buildEventLink(eventId: string) {
 export function shareEventInTelegram(event: {
   id: string;
   title: string;
-  time: string;
+  time: string | null;
   location: string;
 }) {
   const link = buildEventLink(event.id);
   if (!link) return;
 
-  const text = `${event.title}\n${event.time}, ${event.location}`;
+  const details = [event.time, event.location].filter(Boolean).join(", ");
+  const text = details ? `${event.title}\n${details}` : event.title;
   const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(text)}`;
 
   const webApp = getTelegramWebApp();
