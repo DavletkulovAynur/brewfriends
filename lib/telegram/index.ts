@@ -81,6 +81,12 @@ export function readyTelegramWebApp() {
   const webApp = getTelegramWebApp();
   if (!webApp) return;
 
+  if (getTelegramInitData()) {
+    webApp.setHeaderColor(
+      webApp.isVersionAtLeast("6.9") ? "#F8F8F8" : "bg_color",
+    );
+  }
+
   webApp.ready();
   webApp.expand();
   // Prevents swipe-down-to-close from hijacking gestures inside the app.
