@@ -1,4 +1,4 @@
-import { Send } from "lucide-react";
+import { CalendarDays, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
     Sheet,
@@ -16,6 +16,10 @@ type SuggestedPersonSheetProps = {
         initial: string;
         coverSrc: string;
         telegramUsername?: string;
+        primaryEvent?: {
+            title: string;
+            startsAt: string | null;
+        } | null;
     } | null;
     onOpenChange: (open: boolean) => void;
 };
@@ -42,6 +46,21 @@ export function SuggestedPersonSheet({
                                 {person.status || "No status yet."}
                             </SheetDescription>
                         </SheetHeader>
+                        {person.primaryEvent ? (
+                            <section className="mx-6 mt-5 rounded-xl bg-muted/60 p-4">
+                                <h3 className="text-xs font-semibold text-muted-foreground">Главная встреча</h3>
+                                <p className="mt-1 text-sm font-medium">{person.primaryEvent.title}</p>
+                                {person.primaryEvent.startsAt ? (
+                                    <p className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
+                                        <CalendarDays className="size-3.5" aria-hidden />
+                                        {new Intl.DateTimeFormat("ru-RU", {
+                                            dateStyle: "medium",
+                                            timeStyle: "short",
+                                        }).format(new Date(person.primaryEvent.startsAt))}
+                                    </p>
+                                ) : null}
+                            </section>
+                        ) : null}
                         <SheetFooter className="mt-auto px-6 pb-6">
                             <Button
                                 asChild={Boolean(person.telegramUsername)}

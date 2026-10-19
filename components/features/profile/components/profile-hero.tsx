@@ -7,7 +7,17 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { getTelegramInitData, getTelegramUser, getTelegramWebApp } from "@/lib/telegram";
 
-export function ProfileHero({ name }: { name: string }) {
+export function ProfileHero({
+    name,
+    isEditing,
+    cancelDisabled,
+    onCancel,
+}: {
+    name: string;
+    isEditing: boolean;
+    cancelDisabled: boolean;
+    onCancel: () => void;
+}) {
     const router = useRouter();
     const [avatarUrl, setAvatarUrl] = useState<string>();
     const [hasTelegramBackButton, setHasTelegramBackButton] = useState(false);
@@ -43,7 +53,17 @@ export function ProfileHero({ name }: { name: string }) {
                     sizes="(max-width: 768px) calc(100vw - 24px), 600px"
                     className="object-cover rounded-[2rem]"
                 />
-                {hasTelegramBackButton ? null : (
+                {isEditing ? (
+                    <Button
+                        type="button"
+                        variant="secondary"
+                        disabled={cancelDisabled}
+                        onClick={onCancel}
+                        className="absolute left-3 top-3"
+                    >
+                        Отмена
+                    </Button>
+                ) : hasTelegramBackButton ? null : (
                     <Button
                         type="button"
                         variant="ghost"

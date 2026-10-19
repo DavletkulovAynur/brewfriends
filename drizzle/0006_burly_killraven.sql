@@ -1,0 +1,1 @@
+ALTER TABLE "event_posts" ADD COLUMN "is_primary" boolean DEFAULT false NOT NULL;
