@@ -1,6 +1,6 @@
 import type { FormEvent } from "react";
 import Link from "next/link";
-import { ChevronRight } from "lucide-react";
+import { CalendarDays, CalendarPlus, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
@@ -9,9 +9,9 @@ import type { ProfileFormState } from "@/components/features/profile/types/profi
 
 type ProfileFormProps = {
     form: ProfileFormState;
-    error?: string;
-    saved: boolean;
+    isEditing: boolean;
     isSaving: boolean;
+    onCancel: () => void;
     onSubmit: (event: FormEvent<HTMLFormElement>) => void;
     onStatusChange: (status: string) => void;
     onVisibilityChange: (isVisible: boolean) => void;
@@ -19,16 +19,33 @@ type ProfileFormProps = {
 
 export function ProfileForm({
     form,
-    error,
-    saved,
+    isEditing,
     isSaving,
+    onCancel,
     onSubmit,
     onStatusChange,
     onVisibilityChange,
 }: ProfileFormProps) {
     return (
         <form onSubmit={onSubmit} className="flex flex-1 flex-col gap-5 p-6 pt-4">
-            <ProfileHero name={form.name} />
+            <div className="relative">
+                <ProfileHero
+                    name={form.name}
+                    isEditing={isEditing}
+                    cancelDisabled={isSaving}
+                    onCancel={onCancel}
+                />
+                {isEditing ? (
+                    <Button
+                        type="submit"
+                        variant="secondary"
+                        disabled={isSaving}
+                        className="absolute right-0 top-3"
+                    >
+                        {isSaving ? "Saving..." : "Save profile"}
+                    </Button>
+                ) : null}
+            </div>
 
             <section className="flex flex-col gap-1">
                 <label className="flex flex-col bg-white rounded-xl">
@@ -47,13 +64,29 @@ export function ProfileForm({
                 </span>
             </section>
 
-            <Link
-                href="/events/create"
-                className="flex min-h-14 items-center justify-between gap-4 rounded-xl bg-white px-4 text-sm font-semibold transition-colors hover:bg-white/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            >
-                <span>Создать событие</span>
-                <ChevronRight className="size-5 text-muted-foreground" aria-hidden="true" />
-            </Link>
+            <section className="flex flex-col gap-1 rounded-xl bg-white p-4">
+                <Link
+                    href="/events/create"
+                    className="flex min-h-12 items-center justify-between gap-4 rounded-lg px-2 text-sm font-medium transition-colors hover:bg-muted/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                    <span className="flex items-center gap-3">
+                        <CalendarPlus className="size-5 text-muted-foreground" aria-hidden="true" />
+                        Создать событие
+                    </span>
+                    <ChevronRight className="size-5 text-muted-foreground" aria-hidden="true" />
+                </Link>
+                <hr className="my-2 border-t border-muted-foreground/30" />
+                <Link
+                    href="/settings/events"
+                    className="flex min-h-12 items-center justify-between gap-4 rounded-lg px-2 text-sm font-medium transition-colors hover:bg-muted/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                    <span className="flex items-center gap-3">
+                        <CalendarDays className="size-5 text-muted-foreground" aria-hidden="true" />
+                        Мои события
+                    </span>
+                    <ChevronRight className="size-5 text-muted-foreground" aria-hidden="true" />
+                </Link>
+            </section>
 
             <section className="flex flex-col gap-4 rounded-xl bg-white p-4">
                 <div className="flex items-center justify-between gap-4">
@@ -71,14 +104,6 @@ export function ProfileForm({
                 </div>
             </section>
 
-            {error ? <p role="alert" className="text-sm text-destructive">{error}</p> : null}
-            {saved ? <p role="status" className="text-sm text-muted-foreground">Profile saved.</p> : null}
-
-            <div>
-                <Button type="submit" disabled={isSaving}>
-                    {isSaving ? "Saving..." : "Save profile"}
-                </Button>
-            </div>
         </form>
     );
 }

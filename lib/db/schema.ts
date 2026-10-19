@@ -1,5 +1,6 @@
 import { sql } from "drizzle-orm";
 import {
+  boolean,
   pgTable,
   text,
   timestamp,
@@ -46,6 +47,20 @@ export const events = pgTable("events", {
   color: text("color", { enum: ["amber", "sky", "rose"] })
     .notNull()
     .default("amber"),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+});
+
+export type DbEvent = typeof events.$inferSelect;
+
+export const eventPosts = pgTable("event_posts", {
+  id: text("id")
+    .primaryKey()
+    .default(sql`gen_random_uuid()::text`),
+  description: text("description").notNull(),
+  startsAt: timestamp("starts_at", { withTimezone: true }),
+  isPrimary: boolean("is_primary").notNull().default(false),
   creatorId: text("creator_id").references(() => users.id, {
     onDelete: "set null",
   }),
@@ -54,4 +69,4 @@ export const events = pgTable("events", {
     .defaultNow(),
 });
 
-export type DbEvent = typeof events.$inferSelect;
+export type DbEventPost = typeof eventPosts.$inferSelect;

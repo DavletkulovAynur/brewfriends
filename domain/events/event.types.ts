@@ -10,6 +10,7 @@ export type Event = {
   imageUrl: string | null;
   videoUrl: string | null;
   color: EventColor;
+  isPrimary?: boolean;
 };
 
 export type CreateEventInput = {

@@ -36,6 +36,20 @@
       "when": 1792128742584,
       "tag": "0004_cloudy_anthem",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1792151440331,
+      "tag": "0005_nebulous_nextwave",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1792391073598,
+      "tag": "0006_burly_killraven",
+      "breakpoints": true
     }
   ]
 }

@@ -25,6 +25,23 @@ export function useEventsQuery() {
   return useQuery({ queryKey: ["events"], queryFn: fetchEvents });
 }
 
+export const myEventsQueryKey = ["events", "mine"] as const;
+
+async function fetchMyEvents(): Promise<Event[]> {
+  const response = await fetch("/api/events/mine", { credentials: "include" });
+  if (!response.ok) throw new Error("Не удалось загрузить ваши встречи");
+  const data = (await response.json()) as { events: Event[] };
+  return data.events;
+}
+
+export function useMyEventsQuery(enabled = true) {
+  return useQuery({
+    queryKey: myEventsQueryKey,
+    queryFn: fetchMyEvents,
+    enabled,
+  });
+}
+
 export function useEventQuery(id: string) {
   return useQuery({ queryKey: ["events", id], queryFn: () => fetchEvent(id) });
 }
@@ -52,7 +69,70 @@ export function useCreateEventMutation() {
     mutationFn: createEvent,
     onSuccess: async (event) => {
       await queryClient.invalidateQueries({ queryKey: ["events"] });
+      await queryClient.invalidateQueries({ queryKey: myEventsQueryKey });
+      await queryClient.invalidateQueries({ queryKey: ["profiles", "suggestions"] });
       queryClient.setQueryData(["events", event.id], toBentoEvent(event));
     },
   });
+}
+
+async function updateEvent(input: {
+  id: string;
+  description: string;
+  startsAt: string | null;
+}) {
+  const response = await fetch(`/api/events/${encodeURIComponent(input.id)}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({ description: input.description, startsAt: input.startsAt }),
+  });
+  const data = (await response.json()) as { event?: Event; error?: string };
+  if (!response.ok || !data.event) throw new Error(data.error ?? "Не удалось изменить встречу");
+  return data.event;
+}
+
+async function setPrimaryEvent(id: string) {
+  const response = await fetch(`/api/events/${encodeURIComponent(id)}/primary`, {
+    method: "PUT",
+    credentials: "include",
+  });
+  const data = (await response.json()) as { event?: Event; error?: string };
+  if (!response.ok || !data.event) throw new Error(data.error ?? "Не удалось выбрать встречу");
+  return data.event;
+}
+
+async function deleteEvent(id: string) {
+  const response = await fetch(`/api/events/${encodeURIComponent(id)}`, {
+    method: "DELETE",
+    credentials: "include",
+  });
+  const data = (await response.json()) as { error?: string };
+  if (!response.ok) throw new Error(data.error ?? "Не удалось удалить встречу");
+}
+
+function useInvalidateEventLists() {
+  const queryClient = useQueryClient();
+  return async () => {
+    await Promise.all([
+      queryClient.invalidateQueries({ queryKey: ["events"] }),
+      queryClient.invalidateQueries({ queryKey: myEventsQueryKey }),
+      queryClient.invalidateQueries({ queryKey: ["profiles", "suggestions"] }),
+    ]);
+  };
+}
+
+export function useUpdateEventMutation() {
+  const invalidate = useInvalidateEventLists();
+  return useMutation({ mutationFn: updateEvent, onSuccess: invalidate });
+}
+
+export function useSetPrimaryEventMutation() {
+  const invalidate = useInvalidateEventLists();
+  return useMutation({ mutationFn: setPrimaryEvent, onSuccess: invalidate });
+}
+
+export function useDeleteEventMutation() {
+  const invalidate = useInvalidateEventLists();
+  return useMutation({ mutationFn: deleteEvent, onSuccess: invalidate });
 }

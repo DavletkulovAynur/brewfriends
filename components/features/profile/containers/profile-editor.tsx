@@ -1,6 +1,8 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 import { useAuth } from "@/components/providers/telegram-auth-provider";
 import { useProfileQuery } from "@/components/features/profile/api/profile.query";
 import { useUpdateProfileMutation } from "@/components/features/profile/api/profile.mutation";
@@ -17,19 +19,30 @@ export function ProfileEditor() {
     const profileQuery = useProfileQuery(authStatus === "authenticated");
     const updateProfile = useUpdateProfileMutation();
     const [draft, setDraft] = useState<ProfileFormState | null>(null);
-    const [saved, setSaved] = useState(false);
     const profile = profileQuery.data;
-    const form = draft ?? (profile ? toProfileFormState(profile) : null);
-    const error = profileQuery.error?.message ?? updateProfile.error?.message;
+    const initialForm = profile ? toProfileFormState(profile) : null;
+    const form = draft ?? initialForm;
+    const isEditing = Boolean(
+        draft && initialForm &&
+        (draft.status !== initialForm.status || draft.isVisible !== initialForm.isVisible),
+    );
+
+    useEffect(() => {
+        if (profileQuery.error) {
+            toast.error(profileQuery.error.message, { id: "profile-load-error" });
+        }
+    }, [profileQuery.error]);
 
     function saveProfile(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
         if (!form) return;
-        setSaved(false);
         updateProfile.mutate(toProfileUpdatePayload(form), {
-            onSuccess: (user) => {
-                setDraft(toProfileFormState(user));
-                setSaved(true);
+            onSuccess: () => {
+                setDraft(null);
+                toast.success("Profile saved.");
+            },
+            onError: (error) => {
+                toast.error(error.message);
             },
         });
     }
@@ -37,6 +50,10 @@ export function ProfileEditor() {
     function updateDraft(update: Partial<ProfileFormState>) {
         if (!form) return;
         setDraft({ ...form, ...update });
+    }
+
+    function cancelEditing() {
+        setDraft(null);
     }
 
     if (authStatus === "loading") {
@@ -52,15 +69,21 @@ export function ProfileEditor() {
     }
 
     if (!form) {
-        return <p role="alert" className="p-6 text-sm text-destructive">{error ?? "Could not load profile"}</p>;
+        return (
+            <div className="p-6">
+                <Button type="button" onClick={() => void profileQuery.refetch()}>
+                    Retry loading profile
+                </Button>
+            </div>
+        );
     }
 
     return (
         <ProfileForm
             form={form}
-            error={error}
-            saved={saved}
+            isEditing={isEditing}
             isSaving={updateProfile.isPending}
+            onCancel={cancelEditing}
             onSubmit={saveProfile}
             onStatusChange={(status) => updateDraft({ status })}
             onVisibilityChange={(isVisible) => updateDraft({ isVisible })}

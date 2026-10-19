@@ -4,6 +4,7 @@ import {
   userRepository,
 } from "@/server/users/user.repository";
 import type { UpdateUserProfileInput } from "@/server/users/user.types";
+import { eventRepository } from "@/server/events/event.repository";
 
 export const profileService = {
   async listSuggestedProfiles(viewerId?: string): Promise<SuggestedPerson[]> {
@@ -19,7 +20,15 @@ export const profileService = {
         telegramUsername,
       }));
 
-    return shuffleProfiles(visibleProfiles);
+    const primaryEvents = await eventRepository.findPrimaryByCreatorIds(
+      visibleProfiles.map((user) => user.id),
+    );
+    return shuffleProfiles(
+      visibleProfiles.map((user) => ({
+        ...user,
+        primaryEvent: primaryEvents.get(user.id) ?? null,
+      })),
+    );
   },
 
   async update(userId: string, input: UpdateUserProfileInput) {
