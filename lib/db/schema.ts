@@ -2,6 +2,7 @@ import { sql } from "drizzle-orm";
 import {
   boolean,
   pgTable,
+  real,
   text,
   timestamp,
   uniqueIndex,
@@ -70,3 +71,13 @@ export const eventPosts = pgTable("event_posts", {
 });
 
 export type DbEventPost = typeof eventPosts.$inferSelect;
+
+export const cafes = pgTable("cafes", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  address: text("address").notNull(),
+  lat: real("lat").notNull(),
+  lng: real("lng").notNull(),
+});
+
+export type DbCafe = typeof cafes.$inferSelect;
