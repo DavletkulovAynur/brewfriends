@@ -15,6 +15,8 @@
     "db:seed": "node scripts/seed-events.mjs"
   },
   "dependencies": {
+    "@neon/config": "^1.9.2",
+    "@neon/env": "^1.6.3",
     "@neondatabase/serverless": "^1.1.0",
     "@tanstack/react-query": "^5.104.0",
     "@twa-dev/sdk": "^8.0.2",
