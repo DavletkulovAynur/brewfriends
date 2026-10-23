@@ -8,6 +8,7 @@ import {
     useSetPrimaryEventMutation,
 } from "@/components/features/events/api/events.query";
 import { Button } from "@/components/ui/button";
+import { EventConnectionsList } from "@/components/features/events/components/event-connections-list";
 import { formatEventDateLabel } from "@/domain/events/event.logic";
 import { toBentoEvent } from "@/components/features/events/helpers/to-bento-event";
 
@@ -72,6 +73,7 @@ export function MyEventsManager() {
                                         <Trash2 aria-hidden />
                                     </Button>
                                 </div>
+                                <EventConnectionsList eventId={event.id} count={event.connectionsCount ?? 0} />
                             </>
                         </li>
                     ))}

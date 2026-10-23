@@ -17,7 +17,8 @@ export function SuggestedPeopleRow() {
     isLoading,
   } = useSuggestedPeopleRow();
   const [avatarSrc, setAvatarSrc] = useState<string | undefined>();
-  const [selectedPerson, setSelectedPerson] = useState<(typeof people)[number] | null>(null);
+  const [selectedPersonId, setSelectedPersonId] = useState<string | null>(null);
+  const selectedPerson = people.find((person) => person.id === selectedPersonId) ?? null;
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -50,7 +51,7 @@ export function SuggestedPeopleRow() {
                 name={person.name}
                 status={person.status}
                 initial={person.initial}
-                onClick={() => setSelectedPerson(person)}
+                onClick={() => setSelectedPersonId(person.id)}
               />
             ))}
           </>
@@ -62,7 +63,7 @@ export function SuggestedPeopleRow() {
       <SuggestedPersonSheet
         person={selectedPerson}
         onOpenChange={(open) => {
-          if (!open) setSelectedPerson(null);
+          if (!open) setSelectedPersonId(null);
         }}
       />
     </section>

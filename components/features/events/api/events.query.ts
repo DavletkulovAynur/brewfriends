@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { Event } from "@/domain/events/event.types";
+import type { Event, EventConnection } from "@/domain/events/event.types";
 import { toBentoEvent } from "@/components/features/events/helpers/to-bento-event";
 
 async function fetchEvents() {
@@ -135,4 +135,46 @@ export function useSetPrimaryEventMutation() {
 export function useDeleteEventMutation() {
   const invalidate = useInvalidateEventLists();
   return useMutation({ mutationFn: deleteEvent, onSuccess: invalidate });
+}
+
+async function setConnected(input: { id: string; connected: boolean }) {
+  const response = await fetch(`/api/events/${encodeURIComponent(input.id)}/connect`, {
+    method: input.connected ? "POST" : "DELETE",
+    credentials: "include",
+  });
+  if (!response.ok) {
+    const data = (await response.json().catch(() => ({}))) as { error?: string };
+    throw new Error(data.error ?? "Не удалось отправить отклик");
+  }
+}
+
+export function useSetEventConnectionMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: setConnected,
+    onSuccess: async (_data, variables) => {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ["profiles", "suggestions"] }),
+        queryClient.invalidateQueries({ queryKey: ["events", variables.id, "connections"] }),
+        queryClient.invalidateQueries({ queryKey: myEventsQueryKey }),
+      ]);
+    },
+  });
+}
+
+async function fetchEventConnections(id: string): Promise<EventConnection[]> {
+  const response = await fetch(`/api/events/${encodeURIComponent(id)}/connections`, {
+    credentials: "include",
+  });
+  if (!response.ok) throw new Error("Не удалось загрузить отклики");
+  const data = (await response.json()) as { connections: EventConnection[] };
+  return data.connections;
+}
+
+export function useEventConnectionsQuery(id: string, enabled: boolean) {
+  return useQuery({
+    queryKey: ["events", id, "connections"],
+    queryFn: () => fetchEventConnections(id),
+    enabled,
+  });
 }

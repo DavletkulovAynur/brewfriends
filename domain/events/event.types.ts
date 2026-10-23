@@ -11,6 +11,15 @@ export type Event = {
   videoUrl: string | null;
   color: EventColor;
   isPrimary?: boolean;
+  isConnected?: boolean;
+  connectionsCount?: number;
+};
+
+export type EventConnection = {
+  userId: string;
+  name: string;
+  telegramUsername?: string;
+  createdAt: string;
 };
 
 export type CreateEventInput = {

@@ -1,8 +1,12 @@
 import { and, asc, eq, inArray, sql } from "drizzle-orm";
-import type { CreateEventInput, Event } from "@/domain/events/event.types";
+import type {
+  CreateEventInput,
+  Event,
+  EventConnection,
+} from "@/domain/events/event.types";
 import { getDb, isDbConfigured, schema } from "@/lib/db";
 
-const { eventPosts, events } = schema;
+const { eventPosts, events, eventConnections, users } = schema;
 
 const EVENT_POST_LOCATION = "Место пока не указано";
 
@@ -134,6 +138,82 @@ export const eventRepository = {
       .where(and(eq(eventPosts.id, id), eq(eventPosts.creatorId, creatorId)))
       .returning({ id: eventPosts.id });
     return rows.length > 0;
+  },
+
+  async findPostCreatorId(eventPostId: string) {
+    const [row] = await getDb()
+      .select({ creatorId: eventPosts.creatorId })
+      .from(eventPosts)
+      .where(eq(eventPosts.id, eventPostId))
+      .limit(1);
+    return row ? { creatorId: row.creatorId } : null;
+  },
+
+  async addConnection(eventPostId: string, userId: string) {
+    await getDb()
+      .insert(eventConnections)
+      .values({ eventPostId, userId })
+      .onConflictDoNothing();
+  },
+
+  async removeConnection(eventPostId: string, userId: string) {
+    await getDb()
+      .delete(eventConnections)
+      .where(
+        and(
+          eq(eventConnections.eventPostId, eventPostId),
+          eq(eventConnections.userId, userId),
+        ),
+      );
+  },
+
+  async listConnections(eventPostId: string): Promise<EventConnection[]> {
+    const rows = await getDb()
+      .select({
+        userId: users.id,
+        name: users.name,
+        telegramUsername: users.telegramUsername,
+        createdAt: eventConnections.createdAt,
+      })
+      .from(eventConnections)
+      .innerJoin(users, eq(users.id, eventConnections.userId))
+      .where(eq(eventConnections.eventPostId, eventPostId))
+      .orderBy(asc(eventConnections.createdAt));
+    return rows.map((row) => ({
+      userId: row.userId,
+      name: row.name,
+      telegramUsername: row.telegramUsername ?? undefined,
+      createdAt: row.createdAt.toISOString(),
+    }));
+  },
+
+  async findConnectedPostIds(userId: string, eventPostIds: string[]) {
+    if (eventPostIds.length === 0 || !isDbConfigured()) return new Set<string>();
+    const rows = await getDb()
+      .select({ eventPostId: eventConnections.eventPostId })
+      .from(eventConnections)
+      .where(
+        and(
+          eq(eventConnections.userId, userId),
+          inArray(eventConnections.eventPostId, eventPostIds),
+        ),
+      );
+    return new Set(rows.map((row) => row.eventPostId));
+  },
+
+  async countConnections(eventPostIds: string[]) {
+    const counts = new Map<string, number>();
+    if (eventPostIds.length === 0) return counts;
+    const rows = await getDb()
+      .select({
+        eventPostId: eventConnections.eventPostId,
+        count: sql<number>`count(*)::int`,
+      })
+      .from(eventConnections)
+      .where(inArray(eventConnections.eventPostId, eventPostIds))
+      .groupBy(eventConnections.eventPostId);
+    for (const row of rows) counts.set(row.eventPostId, row.count);
+    return counts;
   },
 
   async findById(id: string): Promise<Event | null> {

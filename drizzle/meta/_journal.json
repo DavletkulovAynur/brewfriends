@@ -64,6 +64,13 @@
       "when": 1792655437479,
       "tag": "0008_add_interest_description",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1792741837479,
+      "tag": "0009_event_connections",
+      "breakpoints": true
     }
   ]
 }

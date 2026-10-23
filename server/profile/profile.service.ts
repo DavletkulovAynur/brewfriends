@@ -24,6 +24,12 @@ export const profileService = {
     const primaryEvents = await eventRepository.findPrimaryByCreatorIds(
       visibleProfiles.map((user) => user.id),
     );
+    const connectedPostIds = viewerId
+      ? await eventRepository.findConnectedPostIds(
+          viewerId,
+          [...primaryEvents.values()].map((event) => event.id),
+        )
+      : new Set<string>();
     const interests = await interestsService.listByUsers(
       visibleProfiles.map((user) => user.id),
     );
@@ -36,7 +42,12 @@ export const profileService = {
     return shuffleProfiles(
       visibleProfiles.map((user) => ({
         ...user,
-        primaryEvent: primaryEvents.get(user.id) ?? null,
+        primaryEvent: primaryEvents.has(user.id)
+          ? {
+              ...primaryEvents.get(user.id)!,
+              isConnected: connectedPostIds.has(primaryEvents.get(user.id)!.id),
+            }
+          : null,
         interests: interestsByUserId.get(user.id)?.map(({ activity, participation }) => ({
           activity,
           participation,

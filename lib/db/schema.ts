@@ -72,6 +72,30 @@ export const eventPosts = pgTable("event_posts", {
 
 export type DbEventPost = typeof eventPosts.$inferSelect;
 
+export const eventConnections = pgTable(
+  "event_connections",
+  {
+    id: text("id")
+      .primaryKey()
+      .default(sql`gen_random_uuid()::text`),
+    eventPostId: text("event_post_id")
+      .notNull()
+      .references(() => eventPosts.id, { onDelete: "cascade" }),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (table) => [
+    uniqueIndex("event_connections_post_user_idx").on(
+      table.eventPostId,
+      table.userId,
+    ),
+  ],
+);
+
 export const userInterests = pgTable("user_interests", {
   id: text("id")
     .primaryKey()
