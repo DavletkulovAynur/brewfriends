@@ -50,6 +50,20 @@
       "when": 1792391073598,
       "tag": "0006_burly_killraven",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1792573092561,
+      "tag": "0007_gifted_cyclops",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1792655437479,
+      "tag": "0008_add_interest_description",
+      "breakpoints": true
     }
   ]
 }

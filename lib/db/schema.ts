@@ -72,6 +72,27 @@ export const eventPosts = pgTable("event_posts", {
 
 export type DbEventPost = typeof eventPosts.$inferSelect;
 
+export const userInterests = pgTable("user_interests", {
+  id: text("id")
+    .primaryKey()
+    .default(sql`gen_random_uuid()::text`),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  activity: text("activity").notNull(),
+  description: text("description"),
+  participation: text("participation", {
+    enum: ["looking_for_company", "looking_for_teacher", "want_to_try", "can_teach"],
+  })
+    .notNull()
+    .default("looking_for_company"),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+});
+
+export type DbUserInterest = typeof userInterests.$inferSelect;
+
 export const cafes = pgTable("cafes", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),

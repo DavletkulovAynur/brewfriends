@@ -72,11 +72,11 @@ function SheetContent({
           <SheetPrimitive.Close data-slot="sheet-close" asChild>
             <Button
               variant="ghost"
-              className="absolute top-3 right-3"
-              size="icon-sm"
+              size="icon-lg"
+              aria-label="Закрыть"
+              className="absolute top-4 right-4 z-20 size-11 rounded-full border border-white/70 bg-gradient-to-b from-white/80 to-white/45 text-zinc-900 shadow-[inset_0_1px_1px_rgba(255,255,255,0.95),0_4px_14px_rgba(15,23,42,0.18)] ring-1 ring-white/50 backdrop-blur-xl backdrop-saturate-150 hover:from-white/95 hover:to-white/65 hover:text-zinc-950"
             >
-              <XIcon
-              />
+              <XIcon className="size-5" aria-hidden="true" />
               <span className="sr-only">Close</span>
             </Button>
           </SheetPrimitive.Close>

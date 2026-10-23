@@ -52,29 +52,14 @@ export const eventRepository = {
 
   // Upcoming, ongoing, and undated events.
   async findUpcoming(): Promise<Event[]> {
-    const [eventRows, eventPostRows] = await Promise.all([
-      getDb()
-        .select()
-        .from(events)
-        .where(
-          sql`${events.startsAt} is null or coalesce(${events.endsAt}, ${events.startsAt}) >= now()`,
-        )
-        .orderBy(asc(events.startsAt)),
-      getDb()
-        .select()
-        .from(eventPosts)
-        .where(
-          sql`${eventPosts.startsAt} is null or ${eventPosts.startsAt} >= now()`,
-        )
-        .orderBy(asc(eventPosts.startsAt)),
-    ]);
-    return [...eventRows.map(toEvent), ...eventPostRows.map(toEventPost)].sort(
-      (left, right) => {
-        if (!left.startsAt) return right.startsAt ? 1 : 0;
-        if (!right.startsAt) return -1;
-        return left.startsAt.localeCompare(right.startsAt);
-      },
-    );
+    const rows = await getDb()
+      .select()
+      .from(events)
+      .where(
+        sql`${events.startsAt} is null or coalesce(${events.endsAt}, ${events.startsAt}) >= now()`,
+      )
+      .orderBy(asc(events.startsAt));
+    return rows.map(toEvent);
   },
 
   async findByCreator(creatorId: string): Promise<Event[]> {

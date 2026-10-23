@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { PersonAvatar } from "@/common/people/components/person-avatar";
 
 type PersonCircleProps = {
   name: string;
@@ -32,20 +33,11 @@ export function PersonCircle({
           />
           <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-black/35 to-transparent" />
         </div>
-        <div className="absolute bottom-0 left-1/2 flex size-9 -translate-x-1/2 translate-y-1/4 items-center justify-center overflow-hidden rounded-full border-2 border-white bg-zinc-100 text-sm font-semibold text-zinc-800 shadow-sm dark:border-zinc-950 dark:bg-zinc-800 dark:text-zinc-100">
-          {avatarSrc ? (
-            <Image
-              src={avatarSrc}
-              alt=""
-              fill
-              unoptimized
-              sizes="36px"
-              className="object-cover"
-            />
-          ) : (
-            initial
-          )}
-        </div>
+        <PersonAvatar
+          initial={initial}
+          avatarSrc={avatarSrc}
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/4"
+        />
       </div>
 
       <div className="w-full text-center">

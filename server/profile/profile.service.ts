@@ -5,6 +5,7 @@ import {
 } from "@/server/users/user.repository";
 import type { UpdateUserProfileInput } from "@/server/users/user.types";
 import { eventRepository } from "@/server/events/event.repository";
+import { interestsService } from "@/server/profile/interests.service";
 
 export const profileService = {
   async listSuggestedProfiles(viewerId?: string): Promise<SuggestedPerson[]> {
@@ -23,10 +24,23 @@ export const profileService = {
     const primaryEvents = await eventRepository.findPrimaryByCreatorIds(
       visibleProfiles.map((user) => user.id),
     );
+    const interests = await interestsService.listByUsers(
+      visibleProfiles.map((user) => user.id),
+    );
+    const interestsByUserId = new Map<string, typeof interests>();
+    for (const interest of interests) {
+      const userInterests = interestsByUserId.get(interest.userId) ?? [];
+      userInterests.push(interest);
+      interestsByUserId.set(interest.userId, userInterests);
+    }
     return shuffleProfiles(
       visibleProfiles.map((user) => ({
         ...user,
         primaryEvent: primaryEvents.get(user.id) ?? null,
+        interests: interestsByUserId.get(user.id)?.map(({ activity, participation }) => ({
+          activity,
+          participation,
+        })) ?? [],
       })),
     );
   },

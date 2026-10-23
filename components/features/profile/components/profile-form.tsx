@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { ProfileHero } from "@/components/features/profile/components/profile-hero";
+import { InterestsSettingsLink } from "@/components/features/interests/containers/interests-settings-link";
 import type { ProfileFormState } from "@/components/features/profile/types/profile.types";
 
 type ProfileFormProps = {
@@ -75,7 +76,7 @@ export function ProfileForm({
                     </span>
                     <ChevronRight className="size-5 text-muted-foreground" aria-hidden="true" />
                 </Link>
-                <hr className="my-2 border-t border-muted-foreground/30" />
+                <hr className="my-2 ml-10 border-t border-muted-foreground/10" />
                 <Link
                     href="/settings/events"
                     className="flex min-h-12 items-center justify-between gap-4 rounded-lg px-2 text-sm font-medium transition-colors hover:bg-muted/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -87,6 +88,8 @@ export function ProfileForm({
                     <ChevronRight className="size-5 text-muted-foreground" aria-hidden="true" />
                 </Link>
             </section>
+
+            <InterestsSettingsLink />
 
             <section className="flex flex-col gap-4 rounded-xl bg-white p-4">
                 <div className="flex items-center justify-between gap-4">
