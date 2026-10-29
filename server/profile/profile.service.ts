@@ -48,8 +48,9 @@ export const profileService = {
               isConnected: connectedPostIds.has(primaryEvents.get(user.id)!.id),
             }
           : null,
-        interests: interestsByUserId.get(user.id)?.map(({ activity, participation }) => ({
+        interests: interestsByUserId.get(user.id)?.map(({ activity, description, participation }) => ({
           activity,
+          description,
           participation,
         })) ?? [],
       })),

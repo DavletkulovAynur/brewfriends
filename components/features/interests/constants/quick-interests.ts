@@ -3,7 +3,7 @@ export const quickInterests = [
         id: "reading",
         title: "Чтение",
         inputTitle: "Хочу обсудить книгу",
-        icon: "📚",
+        icon: "📖",
         color: "bg-amber-100/70",
     },
     {
@@ -17,7 +17,7 @@ export const quickInterests = [
         id: "learning-and-growth",
         title: "Учёба и развитие",
         inputTitle: "Хочу разобраться в чём-то новом",
-        icon: "🌱",
+        icon: "🧠",
         color: "bg-lime-100/80",
     },
     {

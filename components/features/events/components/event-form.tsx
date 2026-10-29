@@ -90,7 +90,6 @@ export function EventForm({
                         value={description}
                         onChange={(event) => setDescription(event.target.value)}
                         placeholder="Ищу компанию для работы в коворкинге в субботу"
-                        className="min-h-24 resize-none rounded-xl border-transparent bg-white p-4 text-base shadow-sm focus-visible:border-ring md:text-base"
                     />
                     <p className="text-xs text-muted-foreground">
                         Опиши встречу коротко, до 500 символов.
@@ -106,7 +105,7 @@ export function EventForm({
                         type="datetime-local"
                         value={startsAt}
                         onChange={(event) => setStartsAt(event.target.value)}
-                        className="h-12 w-full min-w-0 max-w-full box-border appearance-none overflow-hidden rounded-xl border-transparent bg-white px-4 text-base shadow-sm md:text-base"
+                        className="max-w-full box-border appearance-none overflow-hidden text-base shadow-sm md:text-base"
                     />
                     <p className="text-xs text-muted-foreground">
                         Оставь пустым, если дата и время пока не определены.
