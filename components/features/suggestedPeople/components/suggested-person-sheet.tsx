@@ -29,7 +29,7 @@ export function SuggestedPersonSheet({ person, onOpenChange }: SuggestedPersonSh
         <Sheet open={person !== null} onOpenChange={onOpenChange}>
             <SheetContent
                 side="bottom"
-                className="h-[75dvh] max-h-[640px] overflow-y-auto rounded-t-2xl px-0 pt-0 sm:mx-auto sm:max-w-lg"
+                className="h-[75dvh] max-h-[640px] overflow-y-auto rounded-t-2xl bg-background px-0 pt-0 sm:mx-auto sm:max-w-lg"
             >
                 {person ? (
                     <>

@@ -28,7 +28,7 @@ export function BottomNav() {
                 className={cn(
                   "flex size-12 items-center justify-center rounded-full transition-colors duration-200",
                   isActive
-                    ? "bg-blue-600 text-white shadow-md shadow-blue-600/30"
+                    ? "bg-primary text-white shadow-md shadow-primary/30"
                     : "text-zinc-500 hover:bg-white/35 hover:text-zinc-800",
                 )}
               >

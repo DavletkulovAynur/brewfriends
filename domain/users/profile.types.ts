@@ -24,4 +24,4 @@ export type UserInterest = {
 	createdAt: string;
 };
 
-export type SuggestedInterest = Pick<UserInterest, "activity" | "participation">;
+export type SuggestedInterest = Pick<UserInterest, "activity" | "description" | "participation">;

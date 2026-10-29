@@ -14,8 +14,8 @@ import { Button } from "@/components/ui/button";
 const participationLabels: Record<InterestParticipation, string> = {
     looking_for_company: "Ищу компанию",
     looking_for_teacher: "Ищу того, кто научит",
-    want_to_try: "Хочу попробовать",
-    can_teach: "Могу показать / научить",
+    want_to_try: "Хочу попробовать впервые",
+    can_teach: "Готов(а) поделиться опытом",
 };
 
 export function InterestsList() {
