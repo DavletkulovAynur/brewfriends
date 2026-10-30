@@ -1,11 +1,11 @@
 import type { FormEvent } from "react";
-import Link from "next/link";
-import { CalendarDays, CalendarPlus, ChevronRight } from "lucide-react";
+import { CalendarDays, CalendarPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { ProfileHero } from "@/components/features/profile/components/profile-hero";
 import { InterestsSettingsLink } from "@/components/features/interests/containers/interests-settings-link";
+import { SettingsLinks } from "@/components/shared/settings-links";
 import type { ProfileFormState } from "@/components/features/profile/types/profile.types";
 
 type ProfileFormProps = {
@@ -65,29 +65,13 @@ export function ProfileForm({
                 </span>
             </section>
 
-            <section className="flex flex-col gap-1 rounded-xl bg-white p-4">
-                <Link
-                    href="/events/create"
-                    className="flex min-h-12 items-center justify-between gap-4 rounded-lg px-2 text-sm font-medium transition-colors hover:bg-muted/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                >
-                    <span className="flex items-center gap-3">
-                        <CalendarPlus className="size-5 text-muted-foreground" aria-hidden="true" />
-                        Создать событие
-                    </span>
-                    <ChevronRight className="size-5 text-muted-foreground" aria-hidden="true" />
-                </Link>
-                <hr className="my-2 ml-10 border-t border-muted-foreground/10" />
-                <Link
-                    href="/settings/events"
-                    className="flex min-h-12 items-center justify-between gap-4 rounded-lg px-2 text-sm font-medium transition-colors hover:bg-muted/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                >
-                    <span className="flex items-center gap-3">
-                        <CalendarDays className="size-5 text-muted-foreground" aria-hidden="true" />
-                        Мои события
-                    </span>
-                    <ChevronRight className="size-5 text-muted-foreground" aria-hidden="true" />
-                </Link>
-            </section>
+            <SettingsLinks
+                items={[
+                    { href: "/events/create", label: "Создать событие", icon: CalendarPlus },
+                    { href: "/settings/events", label: "Мои события", icon: CalendarDays },
+                ]}
+                description="Создавай встречи и приглашай других присоединиться."
+            />
 
             <InterestsSettingsLink />
 
