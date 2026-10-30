@@ -49,7 +49,9 @@ export function EventDetails({ event }: EventDetailsProps) {
         };
     }, [router]);
 
-    const mapEmbedUrl = `https://maps.google.com/maps?q=${encodeURIComponent(event.location)}&output=embed`;
+    const mapLocation = "ул. Карла Маркса, 23";
+    const mapCoordinates = "55.940412,54.725556";
+    const mapEmbedUrl = `https://yandex.ru/map-widget/v1/?ll=${mapCoordinates}&z=14&pt=${mapCoordinates},pm2rdm`;
     const dateParts = getDateParts(event.date);
     const startTime = event.time?.split(/[–—-]/, 1)[0].trim() || "Уточняется";
     const fallbackColor = {
@@ -111,7 +113,7 @@ export function EventDetails({ event }: EventDetailsProps) {
                     <section className="mt-auto flex min-w-0 flex-col gap-2">
 
                         <iframe
-                            title={`Карта: ${event.location}`}
+                            title={`Карта: ${mapLocation}`}
                             src={mapEmbedUrl}
                             loading="lazy"
                             referrerPolicy="no-referrer-when-downgrade"

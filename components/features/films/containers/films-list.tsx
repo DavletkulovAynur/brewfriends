@@ -1,11 +1,13 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { FilmCard } from "@/components/features/films/components/film-card";
-import { WEEK_FILMS } from "@/components/features/films/constants/films";
+import { FilmDetailsSheet } from "@/components/features/films/components/film-details-sheet";
+import { WEEK_FILMS, type Film } from "@/components/features/films/constants/films";
 
 export function FilmsList() {
     const sliderRef = useRef<HTMLDivElement>(null);
+    const [selectedFilm, setSelectedFilm] = useState<Film | null>(null);
 
     return (
         <section className="flex flex-col gap-5 mt-4">
@@ -19,10 +21,13 @@ export function FilmsList() {
                     className="-mr-4 flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain [-webkit-overflow-scrolling:touch] px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                 >
                     {WEEK_FILMS.map((film) => (
-                        <FilmCard key={film.id} film={film} />
+                        <FilmCard key={film.id} film={film} onSelect={setSelectedFilm} />
                     ))}
                 </div>
             </div>
+            <FilmDetailsSheet film={selectedFilm} onOpenChange={(open) => {
+                if (!open) setSelectedFilm(null);
+            }} />
         </section>
     );
 }
