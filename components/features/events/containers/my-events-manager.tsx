@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Pencil, Star, Trash2 } from "lucide-react";
 import {
@@ -11,12 +12,27 @@ import { Button } from "@/components/ui/button";
 import { EventConnectionsList } from "@/components/features/events/components/event-connections-list";
 import { formatEventDateLabel } from "@/domain/events/event.logic";
 import { toBentoEvent } from "@/components/features/events/helpers/to-bento-event";
+import { getTelegramInitData, getTelegramWebApp } from "@/lib/telegram";
 
 export function MyEventsManager() {
     const router = useRouter();
     const eventsQuery = useMyEventsQuery();
     const setPrimary = useSetPrimaryEventMutation();
     const deleteEvent = useDeleteEventMutation();
+
+    useEffect(() => {
+        const backButton = getTelegramWebApp()?.BackButton;
+        if (!backButton || !getTelegramInitData()) return;
+
+        const goBack = () => router.push("/settings");
+        backButton.show();
+        backButton.onClick(goBack);
+
+        return () => {
+            backButton.offClick(goBack);
+            backButton.hide();
+        };
+    }, [router]);
 
     function removeEvent(id: string) {
         if (!window.confirm("Удалить эту встречу?")) return;

@@ -3,7 +3,7 @@
 import { useParams } from "next/navigation";
 import { useEventQuery } from "@/components/features/events/api/events.query";
 import { EventDetails } from "@/components/features/events/containers/event-details";
-import { EventDetailsSkeleton } from "@/components/features/events/containers/event-details-skeleton";
+import { EventDetailsSkeleton } from "@/components/features/events/components/event-details-skeleton";
 
 export default function EventPage() {
     const { id } = useParams<{ id: string }>();

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { Check, Compass, GraduationCap, Lightbulb, UsersRound } from "lucide-react";
@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { quickInterests } from "@/components/features/interests/constants/quick-interests";
+import { getTelegramInitData, getTelegramWebApp } from "@/lib/telegram";
 
 const participationOptions: {
     value: InterestParticipation;
@@ -49,6 +50,20 @@ const participationOptions: {
 export function InterestCreateForm() {
     const router = useRouter();
     const queryClient = useQueryClient();
+    useEffect(() => {
+        const backButton = getTelegramWebApp()?.BackButton;
+        if (!backButton || !getTelegramInitData()) return;
+
+        const goBack = () => router.push("/settings");
+        backButton.show();
+        backButton.onClick(goBack);
+
+        return () => {
+            backButton.offClick(goBack);
+            backButton.hide();
+        };
+    }, [router]);
+
     const [activity, setActivity] = useState("");
     const [selectedQuickInterest, setSelectedQuickInterest] = useState<string | null>("custom");
     const [description, setDescription] = useState("");

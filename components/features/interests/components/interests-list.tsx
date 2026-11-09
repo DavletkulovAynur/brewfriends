@@ -1,6 +1,8 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ChevronRight, X } from "lucide-react";
 import type { InterestParticipation } from "@/domain/users/profile.types";
@@ -10,6 +12,7 @@ import {
     interestsQueryKey,
 } from "@/components/features/interests/api/interests.api";
 import { Button } from "@/components/ui/button";
+import { getTelegramInitData, getTelegramWebApp } from "@/lib/telegram";
 
 const participationLabels: Record<InterestParticipation, string> = {
     looking_for_company: "Ищу компанию",
@@ -19,6 +22,7 @@ const participationLabels: Record<InterestParticipation, string> = {
 };
 
 export function InterestsList() {
+    const router = useRouter();
     const queryClient = useQueryClient();
     const interestsQuery = useQuery({ queryKey: interestsQueryKey, queryFn: fetchMyInterests });
     const deleteMutation = useMutation({
@@ -30,6 +34,20 @@ export function InterestsList() {
             ]);
         },
     });
+
+    useEffect(() => {
+        const backButton = getTelegramWebApp()?.BackButton;
+        if (!backButton || !getTelegramInitData()) return;
+
+        const goBack = () => router.push("/settings");
+        backButton.show();
+        backButton.onClick(goBack);
+
+        return () => {
+            backButton.offClick(goBack);
+            backButton.hide();
+        };
+    }, [router]);
 
     return (
         <section className="flex flex-col gap-4 rounded-xl bg-white p-4">
