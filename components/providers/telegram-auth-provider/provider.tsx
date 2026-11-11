@@ -31,15 +31,20 @@ export function TelegramAuthProvider({ children }: { children: ReactNode }) {
             readyTelegramWebApp();
 
             const { data: existing } = await refetchCurrentUser({ throwOnError: true });
-            if (existing) {
-                setStatus("authenticated");
-                return;
+            const initData = getTelegramInitData();
+
+            if (initData) {
+                try {
+                    const authenticated = await login({ initData });
+                    queryClient.setQueryData(currentUserQueryKey, authenticated);
+                    setStatus("authenticated");
+                    return;
+                } catch (err) {
+                    if (!existing) throw err;
+                }
             }
 
-            const initData = getTelegramInitData();
-            if (initData) {
-                const authenticated = await login({ initData });
-                queryClient.setQueryData(currentUserQueryKey, authenticated);
+            if (existing) {
                 setStatus("authenticated");
                 return;
             }

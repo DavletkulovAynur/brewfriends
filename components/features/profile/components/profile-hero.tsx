@@ -5,7 +5,9 @@ import { useEffect, useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { getTelegramInitData, getTelegramUser, getTelegramWebApp } from "@/lib/telegram";
+import { PersonAvatar } from "@/common/people/components/person-avatar";
+import { useAuth } from "@/components/providers/telegram-auth-provider";
+import { getTelegramInitData, getTelegramWebApp } from "@/lib/telegram";
 
 export function ProfileHero({
     name,
@@ -19,7 +21,7 @@ export function ProfileHero({
     onCancel: () => void;
 }) {
     const router = useRouter();
-    const [avatarUrl, setAvatarUrl] = useState<string>();
+    const { user } = useAuth();
     const [hasTelegramBackButton, setHasTelegramBackButton] = useState(false);
 
     useEffect(() => {
@@ -37,11 +39,6 @@ export function ProfileHero({
             backButton.hide();
         };
     }, [router]);
-
-    useEffect(() => {
-        // eslint-disable-next-line react-hooks/set-state-in-effect
-        setAvatarUrl(getTelegramUser()?.photoUrl);
-    }, []);
 
     return (
         <section className="-mx-3 flex flex-col items-center pb-2 text-center">
@@ -75,22 +72,12 @@ export function ProfileHero({
                         <ArrowLeft aria-hidden="true" />
                     </Button>
                 )}
-                <div className="absolute -bottom-12 left-1/2 size-28 -translate-x-1/2 overflow-hidden rounded-full border-4 border-background bg-muted shadow-md">
-                    {avatarUrl ? (
-                        <Image
-                            src={avatarUrl}
-                            alt=""
-                            fill
-                            unoptimized
-                            sizes="112px"
-                            className="object-cover"
-                        />
-                    ) : (
-                        <span className="flex size-full items-center justify-center text-3xl font-semibold text-muted-foreground">
-                            {name.trim().charAt(0).toUpperCase()}
-                        </span>
-                    )}
-                </div>
+                <PersonAvatar
+                    initial={name.trim().charAt(0).toUpperCase()}
+                    avatarSrc={user?.avatarUrl}
+                    size="lg"
+                    className="absolute -bottom-12 left-1/2 -translate-x-1/2"
+                />
             </div>
             <h1 className="mt-14 max-w-full truncate px-6 text-2xl font-semibold">
                 {name}

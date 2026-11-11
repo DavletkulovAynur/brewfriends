@@ -8,4 +8,5 @@ export type User = {
   interests: string[];
   telegramUsername?: string;
   telegramId?: string;
+  avatarUrl?: string;
 };

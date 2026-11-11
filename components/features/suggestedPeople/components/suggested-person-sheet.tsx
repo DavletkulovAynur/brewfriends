@@ -18,6 +18,7 @@ type SuggestedPersonSheetProps = {
         status: string;
         initial: string;
         telegramUsername?: string;
+        avatarUrl?: string;
         interests?: SuggestedInterest[];
         primaryEvent?: PersonEvent | null;
     } | null;
@@ -34,7 +35,7 @@ export function SuggestedPersonSheet({ person, onOpenChange }: SuggestedPersonSh
                 {person ? (
                     <>
                         <SheetHeader className="mt-6 flex-row items-center gap-4 px-6 pr-16 text-left">
-                            <PersonAvatar initial={person.initial} size="md" />
+                            <PersonAvatar initial={person.initial} avatarSrc={person.avatarUrl} size="md" />
                             <div className="min-w-0 flex-1">
                                 <SheetTitle className="line-clamp-2 text-xl font-semibold">{person.name}</SheetTitle>
                                 <SheetDescription className="mt-1 whitespace-pre-wrap break-words">

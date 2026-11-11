@@ -14,6 +14,7 @@ export const users = pgTable(
     id: text("id").primaryKey(),
     telegramId: text("telegram_id").notNull(),
     telegramUsername: text("telegram_username"),
+    avatarUrl: text("avatar_url"),
     name: text("name").notNull(),
     profileName: text("profile_name"),
     status: text("status").notNull().default(""),

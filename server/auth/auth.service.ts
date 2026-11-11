@@ -43,6 +43,7 @@ export const authService = {
       telegramId: String(telegramUser.id),
       name: displayNameFromTelegramUser(telegramUser),
       telegramUsername: telegramUser.username,
+      avatarUrl: telegramUser.photo_url,
     });
 
     await setSessionCookie({
