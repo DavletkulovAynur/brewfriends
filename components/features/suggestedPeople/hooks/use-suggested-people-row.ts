@@ -12,6 +12,7 @@ export function useSuggestedPeopleRow() {
     name: user?.name ?? "Your prof",
     status: user?.status ?? "",
     initial: user?.name?.charAt(0) ?? "X",
+    avatarUrl: user?.avatarUrl,
     coverSrc: PROFILE_COVERS[0],
   };
   const people = (peopleQuery.data ?? []).map((person) => ({

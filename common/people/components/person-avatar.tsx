@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useState } from "react";
 import { cn } from "cn";
 
 type PersonAvatarProps = {
@@ -28,6 +29,8 @@ export function PersonAvatar({
     imageSizes: customImageSizes,
     className,
 }: PersonAvatarProps) {
+    const [failedAvatarUrl, setFailedAvatarUrl] = useState<string>();
+
     return (
         <div
             className={cn(
@@ -36,7 +39,7 @@ export function PersonAvatar({
                 className,
             )}
         >
-            {avatarSrc ? (
+            {avatarSrc && failedAvatarUrl !== avatarSrc ? (
                 <Image
                     src={avatarSrc}
                     alt=""
@@ -44,6 +47,7 @@ export function PersonAvatar({
                     unoptimized
                     sizes={customImageSizes ?? imageSizes[size]}
                     className="object-cover"
+                    onError={() => setFailedAvatarUrl(avatarSrc)}
                 />
             ) : (
                 initial

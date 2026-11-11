@@ -4,6 +4,7 @@ export type UpsertTelegramUserInput = {
   telegramId: string;
   name: string;
   telegramUsername?: string;
+  avatarUrl?: string;
 };
 
 export type UpdateUserProfileInput = {

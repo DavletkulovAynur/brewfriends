@@ -19,6 +19,7 @@ function mapDbUser(row: DbUser): User {
     interests: row.interests ?? [],
     telegramUsername: row.telegramUsername ?? undefined,
     telegramId: row.telegramId,
+    avatarUrl: row.avatarUrl ?? undefined,
   };
 }
 
@@ -81,6 +82,7 @@ export const userRepository = {
         interests: existing?.interests ?? [],
         telegramUsername: input.telegramUsername,
         telegramId: input.telegramId,
+        avatarUrl: input.avatarUrl ?? existing?.avatarUrl,
       };
 
       memoryStore.getUsers().set(user.id, user);
@@ -101,6 +103,7 @@ export const userRepository = {
         .set({
           name: input.name,
           telegramUsername: input.telegramUsername ?? null,
+          avatarUrl: input.avatarUrl ?? existing[0].avatarUrl,
         })
         .where(eq(schema.users.id, existing[0].id))
         .returning();
@@ -113,6 +116,7 @@ export const userRepository = {
       .values({
         id: crypto.randomUUID(),
         telegramId: input.telegramId,
+        avatarUrl: input.avatarUrl ?? null,
         name: input.name,
         profileName: null,
         status: "",

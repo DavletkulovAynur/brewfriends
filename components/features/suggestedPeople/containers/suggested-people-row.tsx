@@ -1,12 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { PersonCircle } from "@/components/features/suggestedPeople/components/person-circle";
 import { SuggestedPersonSheet } from "@/components/features/suggestedPeople/components/suggested-person-sheet";
 import { useSuggestedPeopleRow } from "@/components/features/suggestedPeople/hooks/use-suggested-people-row";
 import { Skeleton } from "@/components/ui/skeleton";
-import { getTelegramUser } from "@/lib/telegram";
 
 export function SuggestedPeopleRow() {
   const router = useRouter();
@@ -16,14 +15,8 @@ export function SuggestedPeopleRow() {
     error,
     isLoading,
   } = useSuggestedPeopleRow();
-  const [avatarSrc, setAvatarSrc] = useState<string | undefined>();
   const [selectedPersonId, setSelectedPersonId] = useState<string | null>(null);
   const selectedPerson = people.find((person) => person.id === selectedPersonId) ?? null;
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setAvatarSrc(getTelegramUser()?.photoUrl);
-  }, []);
 
   return (
     <section className="flex flex-col gap-3" aria-busy={isLoading}>
@@ -41,7 +34,7 @@ export function SuggestedPeopleRow() {
               name={ownProfile.name}
               status={ownProfile.status}
               initial={ownProfile.initial}
-              avatarSrc={avatarSrc}
+              avatarSrc={ownProfile.avatarUrl}
               onClick={() => router.push("/settings")}
             />
 
@@ -51,6 +44,7 @@ export function SuggestedPeopleRow() {
                 name={person.name}
                 status={person.status}
                 initial={person.initial}
+                avatarSrc={person.avatarUrl}
                 onClick={() => setSelectedPersonId(person.id)}
               />
             ))}

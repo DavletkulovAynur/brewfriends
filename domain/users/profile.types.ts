@@ -3,7 +3,7 @@ import type { Event } from "@/domain/events/event.types";
 
 export type SuggestedPerson = Pick<
 	User,
-	"id" | "name" | "status" | "telegramUsername"
+	"id" | "name" | "status" | "telegramUsername" | "avatarUrl"
 > & { primaryEvent?: Event | null; interests?: SuggestedInterest[] };
 
 export const INTEREST_PARTICIPATIONS = [
