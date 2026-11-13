@@ -14,7 +14,7 @@ export function WelcomeActions({
     onContinue,
 }: WelcomeActionsProps) {
     return (
-        <div className="mt-auto pt-8">
+        <div className="pt-8">
             <div className="flex justify-center">
                 <Button
                     type="button"

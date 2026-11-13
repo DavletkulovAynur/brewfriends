@@ -25,12 +25,27 @@ export const profileService = {
     const primaryEvents = await eventRepository.findPrimaryByCreatorIds(
       visibleProfiles.map((user) => user.id),
     );
+    const eventPostIds = [...primaryEvents.values()].map((event) => event.id);
     const connectedPostIds = viewerId
       ? await eventRepository.findConnectedPostIds(
           viewerId,
-          [...primaryEvents.values()].map((event) => event.id),
+          eventPostIds,
         )
       : new Set<string>();
+    const connections = await eventRepository.findConnectionsByPostIds(eventPostIds);
+    const visibleUsersById = new Map(
+      users
+        .filter((user) => user.id === viewerId || canViewProfile(user, viewerId))
+        .map((user) => [user.id, user]),
+    );
+    const participantsByEventId = new Map<string, { id: string; name: string; avatarUrl?: string }[]>();
+    for (const connection of connections) {
+      const participant = visibleUsersById.get(connection.userId);
+      if (!participant) continue;
+      const participants = participantsByEventId.get(connection.eventPostId) ?? [];
+      participants.push({ id: participant.id, name: participant.name, avatarUrl: participant.avatarUrl });
+      participantsByEventId.set(connection.eventPostId, participants);
+    }
     const interests = await interestsService.listByUsers(
       visibleProfiles.map((user) => user.id),
     );
@@ -47,6 +62,7 @@ export const profileService = {
           ? {
               ...primaryEvents.get(user.id)!,
               isConnected: connectedPostIds.has(primaryEvents.get(user.id)!.id),
+              participants: participantsByEventId.get(primaryEvents.get(user.id)!.id) ?? [],
             }
           : null,
         interests: interestsByUserId.get(user.id)?.map(({ activity, description, participation }) => ({

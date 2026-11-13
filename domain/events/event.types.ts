@@ -13,6 +13,13 @@ export type Event = {
   isPrimary?: boolean;
   isConnected?: boolean;
   connectionsCount?: number;
+  participants?: EventParticipant[];
+};
+
+export type EventParticipant = {
+  id: string;
+  name: string;
+  avatarUrl?: string;
 };
 
 export type EventConnection = {

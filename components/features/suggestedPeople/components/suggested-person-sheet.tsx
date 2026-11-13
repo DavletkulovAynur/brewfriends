@@ -30,26 +30,33 @@ export function SuggestedPersonSheet({ person, onOpenChange }: SuggestedPersonSh
         <Sheet open={person !== null} onOpenChange={onOpenChange}>
             <SheetContent
                 side="bottom"
-                className="h-[75dvh] max-h-[640px] overflow-y-auto rounded-t-2xl bg-background px-0 pt-0 sm:mx-auto sm:max-w-lg"
+                className="h-[75dvh] max-h-[640px] gap-0 overflow-hidden rounded-t-2xl bg-background px-0 pt-0 sm:mx-auto sm:max-w-lg"
             >
-                {person ? (
-                    <>
+                <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto">
+                    {person ? (
+                        <>
                         <SheetHeader className="mt-6 flex-row items-center gap-4 px-6 pr-16 text-left">
                             <PersonAvatar initial={person.initial} avatarSrc={person.avatarUrl} size="md" />
                             <div className="min-w-0 flex-1">
-                                <SheetTitle className="line-clamp-2 text-xl font-semibold">{person.name}</SheetTitle>
                                 <SheetDescription className="mt-1 whitespace-pre-wrap break-words">
                                     {person.status || "Статус не указан"}
                                 </SheetDescription>
+                                <SheetTitle className="line-clamp-2 text-lg font-semibold">{person.name}</SheetTitle>
+
                             </div>
                         </SheetHeader>
-                        {person.primaryEvent ? <PersonEventCard event={person.primaryEvent} /> : null}
+                        {person.primaryEvent ? (
+                            <PersonEventCard
+                                event={person.primaryEvent}
+                            />
+                        ) : null}
                         {person.interests?.length ? <PersonInterests interests={person.interests} /> : null}
                         <SheetFooter className="mt-auto px-6 pb-6">
                             <TelegramLinkButton username={person.telegramUsername} />
                         </SheetFooter>
-                    </>
-                ) : null}
+                        </>
+                    ) : null}
+                </div>
             </SheetContent>
         </Sheet>
     );

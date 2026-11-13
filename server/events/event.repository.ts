@@ -201,6 +201,15 @@ export const eventRepository = {
     return new Set(rows.map((row) => row.eventPostId));
   },
 
+  async findConnectionsByPostIds(eventPostIds: string[]) {
+    if (eventPostIds.length === 0 || !isDbConfigured()) return [];
+    return getDb()
+      .select({ eventPostId: eventConnections.eventPostId, userId: eventConnections.userId })
+      .from(eventConnections)
+      .where(inArray(eventConnections.eventPostId, eventPostIds))
+      .orderBy(asc(eventConnections.createdAt));
+  },
+
   async countConnections(eventPostIds: string[]) {
     const counts = new Map<string, number>();
     if (eventPostIds.length === 0) return counts;
