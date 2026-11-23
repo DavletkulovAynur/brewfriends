@@ -1,7 +1,6 @@
 import { useAuth } from "@/components/providers/telegram-auth-provider";
 import { useSuggestedPeopleQuery } from "@/components/features/suggestedPeople/api/suggested-people.query";
-import { PROFILE_COVERS } from "@/components/features/suggestedPeople/constants/profile-covers";
-import { getProfileCover } from "@/components/features/suggestedPeople/helpers/get-profile-cover";
+import { DEFAULT_MEETUP_INTENT } from "@/domain/users/meetup-intent";
 
 // Builds display-ready data for the row, including the current user and suggested profiles.
 export function useSuggestedPeopleRow() {
@@ -13,12 +12,11 @@ export function useSuggestedPeopleRow() {
     status: user?.status ?? "",
     initial: user?.name?.charAt(0) ?? "X",
     avatarUrl: user?.avatarUrl,
-    coverSrc: PROFILE_COVERS[0],
+    meetupIntent: user?.meetupIntent ?? DEFAULT_MEETUP_INTENT,
   };
   const people = (peopleQuery.data ?? []).map((person) => ({
     ...person,
     initial: person.name.charAt(0),
-    coverSrc: getProfileCover(person.id),
   }));
 
   return {

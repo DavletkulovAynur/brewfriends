@@ -22,12 +22,12 @@ vi.mock("@/server/profile/interests.service", () => ({
 }));
 
 const users: User[] = [
-  { id: "host", name: "Host", status: "Hosting", visibility: "everyone", visibleToUserIds: [], interests: [] },
-  { id: "public", name: "Public", status: "", visibility: "everyone", visibleToUserIds: [], interests: [], avatarUrl: "public.jpg" },
-  { id: "private", name: "Private", status: "", visibility: "selected", visibleToUserIds: ["viewer"], interests: [] },
-  { id: "hidden", name: "Hidden", status: "", visibility: "selected", visibleToUserIds: [], interests: [] },
-  { id: "viewer", name: "Viewer", status: "", visibility: "selected", visibleToUserIds: [], interests: [] },
-  { id: "not-connected", name: "Not connected", status: "", visibility: "everyone", visibleToUserIds: [], interests: [] },
+  { id: "host", name: "Host", status: "Hosting", visibility: "everyone", visibleToUserIds: [], interests: [], meetupIntent: "learn_together" },
+  { id: "public", name: "Public", status: "", visibility: "everyone", visibleToUserIds: [], interests: [], avatarUrl: "public.jpg", meetupIntent: "coffee_chat" },
+  { id: "private", name: "Private", status: "", visibility: "selected", visibleToUserIds: ["viewer"], interests: [], meetupIntent: "just_browsing" },
+  { id: "hidden", name: "Hidden", status: "", visibility: "selected", visibleToUserIds: [], interests: [], meetupIntent: "just_browsing" },
+  { id: "viewer", name: "Viewer", status: "", visibility: "selected", visibleToUserIds: [], interests: [], meetupIntent: "just_browsing" },
+  { id: "not-connected", name: "Not connected", status: "", visibility: "everyone", visibleToUserIds: [], interests: [], meetupIntent: "book_chat" },
 ];
 
 const event: Event = {

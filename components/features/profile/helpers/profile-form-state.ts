@@ -1,12 +1,14 @@
 import type { ProfileFormState } from "../types/profile.types";
 import type { User } from "@/domain/users/user.types";
 import type { ProfileUpdatePayload } from "../types/profile.types";
+import { DEFAULT_MEETUP_INTENT } from "../../../../domain/users/meetup-intent";
 
 export function toProfileFormState(user: User): ProfileFormState {
   return {
     name: user.name,
     status: user.status,
     isVisible: user.visibility === "everyone",
+    meetupIntent: user.meetupIntent ?? DEFAULT_MEETUP_INTENT,
   };
 }
 
@@ -17,5 +19,6 @@ export function toProfileUpdatePayload(
     status: form.status,
     visibility: form.isVisible ? "everyone" : "selected",
     visibleToUserIds: [],
+    meetupIntent: form.meetupIntent,
   };
 }

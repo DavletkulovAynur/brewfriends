@@ -1,3 +1,5 @@
+import type { MeetupIntent } from "@/domain/users/meetup-intent";
+
 export type User = {
   id: string;
   name: string;
@@ -9,4 +11,5 @@ export type User = {
   telegramUsername?: string;
   telegramId?: string;
   avatarUrl?: string;
+  meetupIntent: MeetupIntent;
 };

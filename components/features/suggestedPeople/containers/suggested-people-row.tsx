@@ -35,6 +35,7 @@ export function SuggestedPeopleRow() {
               status={ownProfile.status}
               initial={ownProfile.initial}
               avatarSrc={ownProfile.avatarUrl}
+              meetupIntent={ownProfile.meetupIntent}
               onClick={() => router.push("/settings")}
             />
 
@@ -45,6 +46,7 @@ export function SuggestedPeopleRow() {
                 status={person.status}
                 initial={person.initial}
                 avatarSrc={person.avatarUrl}
+                meetupIntent={person.meetupIntent}
                 onClick={() => setSelectedPersonId(person.id)}
               />
             ))}

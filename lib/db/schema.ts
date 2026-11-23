@@ -1,4 +1,5 @@
 import { sql } from "drizzle-orm";
+import { MEETUP_INTENTS } from "@/domain/users/meetup-intent";
 import {
   boolean,
   pgTable,
@@ -15,6 +16,9 @@ export const users = pgTable(
     telegramId: text("telegram_id").notNull(),
     telegramUsername: text("telegram_username"),
     avatarUrl: text("avatar_url"),
+    meetupIntent: text("meetup_intent", { enum: MEETUP_INTENTS })
+      .notNull()
+      .default("just_browsing"),
     name: text("name").notNull(),
     profileName: text("profile_name"),
     status: text("status").notNull().default(""),

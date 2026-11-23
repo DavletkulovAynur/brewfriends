@@ -5,7 +5,7 @@ import {
   toProfileUpdatePayload,
 } from "./profile-form-state";
 
-describe("profile form visibility", () => {
+describe("profile form state", () => {
   it("treats a selected audience as not visible in the toggle", () => {
     const user: User = {
       id: "user-1",
@@ -14,9 +14,11 @@ describe("profile form visibility", () => {
       visibility: "selected",
       visibleToUserIds: ["user-2"],
       interests: [],
+      meetupIntent: "series_chat",
     };
 
     expect(toProfileFormState(user).isVisible).toBe(false);
+    expect(toProfileFormState(user).meetupIntent).toBe("series_chat");
   });
 
   it("hides the profile from everyone when the toggle is off", () => {
@@ -25,11 +27,13 @@ describe("profile form visibility", () => {
         name: "Aynur",
         status: "Coffee",
         isVisible: false,
+        meetupIntent: "series_chat",
       }),
     ).toEqual({
       status: "Coffee",
       visibility: "selected",
       visibleToUserIds: [],
+      meetupIntent: "series_chat",
     });
   });
 
@@ -39,11 +43,13 @@ describe("profile form visibility", () => {
         name: "Aynur",
         status: "Coffee",
         isVisible: true,
+        meetupIntent: "coffee_chat",
       }),
     ).toEqual({
       status: "Coffee",
       visibility: "everyone",
       visibleToUserIds: [],
+      meetupIntent: "coffee_chat",
     });
   });
 });

@@ -1,0 +1,1 @@
+ALTER TABLE "users" ADD COLUMN "profile_color" text DEFAULT 'sky' NOT NULL;
