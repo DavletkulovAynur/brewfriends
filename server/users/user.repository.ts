@@ -1,5 +1,9 @@
 import { eq } from "drizzle-orm";
 import type { User } from "@/domain/users/user.types";
+import {
+  DEFAULT_MEETUP_INTENT,
+  isMeetupIntent,
+} from "@/domain/users/meetup-intent";
 import { getDb, isDbConfigured, schema } from "@/lib/db";
 import { memoryStore } from "@/lib/db/memory";
 import type { DbUser } from "@/lib/db/schema";
@@ -20,6 +24,9 @@ function mapDbUser(row: DbUser): User {
     telegramUsername: row.telegramUsername ?? undefined,
     telegramId: row.telegramId,
     avatarUrl: row.avatarUrl ?? undefined,
+    meetupIntent: isMeetupIntent(row.meetupIntent)
+      ? row.meetupIntent
+      : DEFAULT_MEETUP_INTENT,
   };
 }
 
@@ -83,6 +90,7 @@ export const userRepository = {
         telegramUsername: input.telegramUsername,
         telegramId: input.telegramId,
         avatarUrl: input.avatarUrl ?? existing?.avatarUrl,
+        meetupIntent: existing?.meetupIntent ?? DEFAULT_MEETUP_INTENT,
       };
 
       memoryStore.getUsers().set(user.id, user);
@@ -117,6 +125,7 @@ export const userRepository = {
         id: crypto.randomUUID(),
         telegramId: input.telegramId,
         avatarUrl: input.avatarUrl ?? null,
+        meetupIntent: DEFAULT_MEETUP_INTENT,
         name: input.name,
         profileName: null,
         status: "",
@@ -151,6 +160,7 @@ export const userRepository = {
         status: input.status,
         profileVisibility: input.visibility,
         visibleToUserIds: input.visibleToUserIds,
+        meetupIntent: input.meetupIntent,
       })
       .where(eq(schema.users.id, userId))
       .returning();

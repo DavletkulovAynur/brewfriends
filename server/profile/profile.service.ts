@@ -14,12 +14,13 @@ export const profileService = {
     const visibleProfiles = users
       .filter((user) => user.id !== viewerId && user.status.trim().length > 0)
       .filter((user) => canViewProfile(user, viewerId))
-      .map(({ id, name, status, telegramUsername, avatarUrl }) => ({
+      .map(({ id, name, status, telegramUsername, avatarUrl, meetupIntent }) => ({
         id,
         name,
         status,
         telegramUsername,
         avatarUrl,
+        meetupIntent,
       }));
 
     const primaryEvents = await eventRepository.findPrimaryByCreatorIds(

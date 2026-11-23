@@ -24,7 +24,9 @@ export function ProfileEditor() {
     const form = draft ?? initialForm;
     const isEditing = Boolean(
         draft && initialForm &&
-        (draft.status !== initialForm.status || draft.isVisible !== initialForm.isVisible),
+        (draft.status !== initialForm.status ||
+            draft.isVisible !== initialForm.isVisible ||
+            draft.meetupIntent !== initialForm.meetupIntent),
     );
 
     useEffect(() => {
@@ -87,6 +89,7 @@ export function ProfileEditor() {
             onSubmit={saveProfile}
             onStatusChange={(status) => updateDraft({ status })}
             onVisibilityChange={(isVisible) => updateDraft({ isVisible })}
+            onMeetupIntentChange={(meetupIntent) => updateDraft({ meetupIntent })}
         />
     );
 }

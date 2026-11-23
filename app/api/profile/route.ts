@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getSession } from "@/server/auth/session";
 import { userService } from "@/server/users/user.service";
 import { profileService } from "@/server/profile/profile.service";
+import { isMeetupIntent } from "@/domain/users/meetup-intent";
 
 export async function GET() {
   const session = await getSession();
@@ -29,6 +30,7 @@ export async function PATCH(request: Request) {
       status?: unknown;
       visibility?: unknown;
       visibleToUserIds?: unknown;
+      meetupIntent?: unknown;
     };
 
     if (
@@ -37,7 +39,8 @@ export async function PATCH(request: Request) {
       (body.visibility !== "everyone" && body.visibility !== "selected") ||
       !Array.isArray(body.visibleToUserIds) ||
       body.visibleToUserIds.length > 50 ||
-      !body.visibleToUserIds.every((id) => typeof id === "string")
+      !body.visibleToUserIds.every((id) => typeof id === "string") ||
+      !isMeetupIntent(body.meetupIntent)
     ) {
       return NextResponse.json({ error: "Invalid profile" }, { status: 400 });
     }
@@ -46,6 +49,7 @@ export async function PATCH(request: Request) {
       status: body.status.trim(),
       visibility: body.visibility,
       visibleToUserIds: body.visibleToUserIds,
+      meetupIntent: body.meetupIntent,
     });
 
     if (!user) {

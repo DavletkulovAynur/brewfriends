@@ -78,6 +78,20 @@
       "when": 1794378979369,
       "tag": "0010_mighty_hawkeye",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1794554810637,
+      "tag": "0011_add_profile_color",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1794568144591,
+      "tag": "0012_add_meetup_intent",
+      "breakpoints": true
     }
   ]
 }
