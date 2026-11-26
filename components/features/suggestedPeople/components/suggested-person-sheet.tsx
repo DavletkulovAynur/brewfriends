@@ -3,9 +3,6 @@ import { PersonEventCard, type PersonEvent } from "@/components/features/suggest
 import { PersonInterests } from "@/components/features/suggestedPeople/components/person-interests";
 import { TelegramLinkButton } from "@/components/features/suggestedPeople/components/telegram-link-button";
 import type { SuggestedInterest } from "@/domain/users/profile.types";
-import type { MeetupIntent } from "@/domain/users/meetup-intent";
-import { MEETUP_INTENT_EMOJIS, MEETUP_INTENT_LABELS } from "@/domain/users/meetup-intent";
-import { MEETUP_INTENT_COLORS } from "@/common/people/constants/meetup-intent-colors";
 import {
     Sheet,
     SheetContent,
@@ -22,7 +19,6 @@ type SuggestedPersonSheetProps = {
         initial: string;
         telegramUsername?: string;
         avatarUrl?: string;
-        meetupIntent: MeetupIntent;
         interests?: SuggestedInterest[];
         primaryEvent?: PersonEvent | null;
     } | null;
@@ -46,17 +42,6 @@ export function SuggestedPersonSheet({ person, onOpenChange }: SuggestedPersonSh
                                         {person.status || "Статус не указан"}
                                     </SheetDescription>
                                     <SheetTitle className="line-clamp-2 text-lg font-semibold">{person.name}</SheetTitle>
-                                    <p className="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
-                                        <span
-                                            aria-hidden="true"
-                                            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xl"
-                                            style={{ backgroundColor: MEETUP_INTENT_COLORS[person.meetupIntent] }}
-                                        >
-                                            {MEETUP_INTENT_EMOJIS[person.meetupIntent]}
-                                        </span>
-                                        {MEETUP_INTENT_LABELS[person.meetupIntent]}
-                                    </p>
-
                                 </div>
                             </SheetHeader>
                             {person.primaryEvent ? (

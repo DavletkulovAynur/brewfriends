@@ -2,6 +2,7 @@ import { sql } from "drizzle-orm";
 import { MEETUP_INTENTS } from "@/domain/users/meetup-intent";
 import {
   boolean,
+  integer,
   pgTable,
   real,
   text,
@@ -64,7 +65,13 @@ export const eventPosts = pgTable("event_posts", {
   id: text("id")
     .primaryKey()
     .default(sql`gen_random_uuid()::text`),
+  title: text("title").notNull(),
   description: text("description").notNull(),
+  location: text("location").notNull().default("Место пока не указано"),
+  priceType: text("price_type", { enum: ["free", "paid"] })
+    .notNull()
+    .default("free"),
+  priceAmount: integer("price_amount"),
   startsAt: timestamp("starts_at", { withTimezone: true }),
   isPrimary: boolean("is_primary").notNull().default(false),
   creatorId: text("creator_id").references(() => users.id, {
@@ -131,3 +138,16 @@ export const cafes = pgTable("cafes", {
 });
 
 export type DbCafe = typeof cafes.$inferSelect;
+
+export const peopleSuggestions = pgTable("people_suggestions", {
+  id: text("id")
+    .primaryKey()
+    .default(sql`gen_random_uuid()::text`),
+  userId: text("user_id").references(() => users.id, { onDelete: "set null" }),
+  message: text("message").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+});
+
+export type DbPeopleSuggestion = typeof peopleSuggestions.$inferSelect;

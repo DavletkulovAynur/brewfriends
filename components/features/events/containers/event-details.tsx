@@ -14,6 +14,10 @@ import type { BentoEvent } from "@/components/features/events/types/bento-event.
 
 type EventDetailsProps = {
     event: BentoEvent;
+    eyebrow?: string;
+    metadata?: { label: string; value: string }[];
+    contentSections?: { title: string; content: string }[];
+    shareable?: boolean;
 };
 
 function getDateParts(value: string | null) {
@@ -29,7 +33,7 @@ function getDateParts(value: string | null) {
     };
 }
 
-export function EventDetails({ event }: EventDetailsProps) {
+export function EventDetails({ event, eyebrow, metadata, contentSections, shareable = true }: EventDetailsProps) {
     const router = useRouter();
     const [hasNativeBack, setHasNativeBack] = useState(false);
 
@@ -49,9 +53,7 @@ export function EventDetails({ event }: EventDetailsProps) {
         };
     }, [router]);
 
-    const mapLocation = "ул. Карла Маркса, 23";
-    const mapCoordinates = "55.940412,54.725556";
-    const mapEmbedUrl = `https://yandex.ru/map-widget/v1/?ll=${mapCoordinates}&z=14&pt=${mapCoordinates},pm2rdm`;
+    const mapEmbedUrl = `https://yandex.ru/map-widget/v1/?text=${encodeURIComponent(event.location)}&z=14`;
     const dateParts = getDateParts(event.date);
     const startTime = event.time?.split(/[–—-]/, 1)[0].trim() || "Уточняется";
     const fallbackColor = {
@@ -59,6 +61,21 @@ export function EventDetails({ event }: EventDetailsProps) {
         sky: "bg-sky-100",
         rose: "bg-rose-100",
     }[event.color];
+    const eventMetadata = metadata ?? [
+        { label: dateParts.month, value: dateParts.day },
+        { label: dateParts.weekday || "День", value: startTime },
+    ];
+    const sections = contentSections ?? [
+        {
+            title: "Почему стоит пойти",
+            content: "Это отличный повод сменить обстановку, познакомиться с новыми людьми и провести время за любимым занятием.",
+        },
+    ];
+    const priceLabel = event.priceType === "free"
+        ? "Бесплатно"
+        : event.priceType === "paid"
+            ? `${event.priceAmount} ₽`
+            : null;
 
     return (
         <div className="flex flex-1 flex-col gap-4 p-4 pt-4">
@@ -97,23 +114,18 @@ export function EventDetails({ event }: EventDetailsProps) {
                 </div>
 
                 <div className="flex min-w-0 flex-1 flex-col gap-4 p-3">
-
-
-                    <section className="grid grid-cols-2 gap-2 text-sm">
-                        <div className="flex min-w-0 flex-col justify-between gap-1 rounded-xl bg-background p-2.5">
-                            <span className="truncate text-xs capitalize text-muted-foreground">{dateParts.month}</span>
-                            <span className="text-lg font-semibold leading-none text-foreground">{dateParts.day}</span>
-                        </div>
-                        <div className="flex min-w-0 flex-col justify-between gap-1 rounded-xl bg-background p-2.5">
-                            <span className="truncate text-xs capitalize text-muted-foreground">{dateParts.weekday || "День"}</span>
-                            <span className="break-words text-lg font-semibold leading-none text-foreground">{startTime}</span>
-                        </div>
+                    <section className={`${eventMetadata.length === 1 ? "grid-cols-1" : "grid-cols-2"} grid gap-2 text-sm`}>
+                        {eventMetadata.slice(0, 2).map((item) => (
+                            <div key={item.label} className="flex min-w-0 flex-col justify-between gap-1 rounded-xl bg-background p-2.5">
+                                <span className="truncate text-xs capitalize text-muted-foreground">{item.label}</span>
+                                <span className="break-words text-lg font-semibold leading-tight text-foreground">{item.value}</span>
+                            </div>
+                        ))}
                     </section>
 
                     <section className="mt-auto flex min-w-0 flex-col gap-2">
-
                         <iframe
-                            title={`Карта: ${mapLocation}`}
+                            title={`Карта: ${event.location}`}
                             src={mapEmbedUrl}
                             loading="lazy"
                             referrerPolicy="no-referrer-when-downgrade"
@@ -124,6 +136,7 @@ export function EventDetails({ event }: EventDetailsProps) {
             </article>
 
             <section className="flex flex-col gap-2 px-1 pt-1">
+                {eyebrow ? <p className="text-sm font-medium text-muted-foreground">{eyebrow}</p> : null}
                 <h1 className="break-words text-3xl font-semibold leading-tight text-foreground">{event.title}</h1>
                 {event.description && event.description !== event.title ? (
                     <p
@@ -133,24 +146,29 @@ export function EventDetails({ event }: EventDetailsProps) {
                         {event.description}
                     </p>
                 ) : null}
+                <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted-foreground">
+                    {event.location ? <p>Место: {event.location}</p> : null}
+                    {priceLabel ? <p>Стоимость: {priceLabel}</p> : null}
+                </div>
             </section>
 
-            <section className="rounded-2xl bg-primary/5 p-4">
-                <h2 className="text-base font-semibold text-foreground">Почему стоит пойти</h2>
-                <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                    Это отличный повод сменить обстановку, познакомиться с новыми людьми и провести время за любимым занятием.
-                </p>
-            </section>
+            {sections.map((section) => (
+                <section key={section.title} className="rounded-2xl bg-primary/5 p-4">
+                    <h2 className="text-base font-semibold text-foreground">{section.title}</h2>
+                    <p className="mt-2 whitespace-pre-line text-sm leading-6 text-muted-foreground">{section.content}</p>
+                </section>
+            ))}
 
-            <Button
-                type="button"
-                onClick={() => shareEventInTelegram(event)}
-                size="xl"
-
-            >
-                <Share2 className="size-4" aria-hidden="true" />
-                Поделиться
-            </Button>
+            {shareable ? (
+                <Button
+                    type="button"
+                    onClick={() => shareEventInTelegram(event)}
+                    size="xl"
+                >
+                    <Share2 className="size-4" aria-hidden="true" />
+                    Поделиться
+                </Button>
+            ) : null}
         </div>
     );
 }

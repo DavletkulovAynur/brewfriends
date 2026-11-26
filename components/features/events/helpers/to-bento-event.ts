@@ -22,6 +22,8 @@ export function toBentoEvent(event: Event): BentoEvent {
         : formatTime(start)
       : null,
     location: event.location,
+    priceType: event.priceType,
+    priceAmount: event.priceAmount,
     color: event.color,
     imageUrl: event.imageUrl ?? undefined,
     videoUrl: event.videoUrl ?? undefined,

@@ -61,7 +61,9 @@ export function MyEventsManager() {
                             <>
                                 <div className="flex items-start justify-between gap-3">
                                     <div className="min-w-0">
-                                        <p className="whitespace-pre-line text-sm font-medium">{event.description}</p>
+                                        <p className="text-sm font-semibold">{event.title}</p>
+                                        <p className="mt-1 whitespace-pre-line text-sm text-muted-foreground">{event.description}</p>
+                                        <p className="mt-1 text-xs text-muted-foreground">{event.location}</p>
                                         <p className="mt-1 text-xs text-muted-foreground">{formatEventDateLabel(toBentoEvent(event).date)}</p>
                                     </div>
                                     {event.isPrimary ? (

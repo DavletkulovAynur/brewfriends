@@ -1,10 +1,13 @@
 export type EventColor = "amber" | "sky" | "rose";
+export type EventPriceType = "free" | "paid";
 
 export type Event = {
   id: string;
   title: string;
   description: string;
   location: string;
+  priceType?: EventPriceType;
+  priceAmount?: number | null;
   startsAt: string | null;
   endsAt: string | null;
   imageUrl: string | null;
@@ -30,6 +33,10 @@ export type EventConnection = {
 };
 
 export type CreateEventInput = {
+  title: string;
   description: string;
+  location: string;
+  priceType: EventPriceType;
+  priceAmount: number | null;
   startsAt: string | null;
 };

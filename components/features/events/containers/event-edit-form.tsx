@@ -27,7 +27,11 @@ export function EventEditForm({ eventId }: { eventId: string }) {
         <EventForm
             key={event.id}
             initialValues={{
+                title: event.title,
                 description: event.description,
+                location: event.location,
+                priceType: event.priceType ?? "free",
+                priceAmount: event.priceAmount ?? null,
                 startsAt: event.startsAt,
             }}
             submitLabel="Сохранить"

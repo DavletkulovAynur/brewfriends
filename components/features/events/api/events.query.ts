@@ -46,7 +46,14 @@ export function useEventQuery(id: string) {
   return useQuery({ queryKey: ["events", id], queryFn: () => fetchEvent(id) });
 }
 
-async function createEvent(input: { description: string; startsAt: string | null }) {
+async function createEvent(input: {
+  title: string;
+  description: string;
+  location: string;
+  priceType: "free" | "paid";
+  priceAmount: number | null;
+  startsAt: string | null;
+}) {
   const response = await fetch("/api/events", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -78,14 +85,18 @@ export function useCreateEventMutation() {
 
 async function updateEvent(input: {
   id: string;
+  title: string;
   description: string;
+  location: string;
+  priceType: "free" | "paid";
+  priceAmount: number | null;
   startsAt: string | null;
 }) {
   const response = await fetch(`/api/events/${encodeURIComponent(input.id)}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
-    body: JSON.stringify({ description: input.description, startsAt: input.startsAt }),
+    body: JSON.stringify(input),
   });
   const data = (await response.json()) as { event?: Event; error?: string };
   if (!response.ok || !data.event) throw new Error(data.error ?? "Не удалось изменить встречу");

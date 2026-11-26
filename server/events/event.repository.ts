@@ -28,9 +28,11 @@ function toEvent(row: typeof events.$inferSelect): Event {
 function toEventPost(row: typeof eventPosts.$inferSelect): Event {
   return {
     id: row.id,
-    title: row.description,
+    title: row.title,
     description: row.description,
-    location: EVENT_POST_LOCATION,
+    location: row.location || EVENT_POST_LOCATION,
+    priceType: row.priceType,
+    priceAmount: row.priceAmount,
     startsAt: row.startsAt?.toISOString() ?? null,
     endsAt: null,
     imageUrl: null,
@@ -45,7 +47,11 @@ export const eventRepository = {
     const [row] = await getDb()
       .insert(eventPosts)
       .values({
+        title: input.title,
         description: input.description,
+        location: input.location || EVENT_POST_LOCATION,
+        priceType: input.priceType,
+        priceAmount: input.priceAmount,
         startsAt: input.startsAt ? new Date(input.startsAt) : null,
         creatorId,
       })
@@ -101,7 +107,11 @@ export const eventRepository = {
     const [row] = await getDb()
       .update(eventPosts)
       .set({
+        title: input.title,
         description: input.description,
+        location: input.location || EVENT_POST_LOCATION,
+        priceType: input.priceType,
+        priceAmount: input.priceAmount,
         startsAt: input.startsAt ? new Date(input.startsAt) : null,
       })
       .where(and(eq(eventPosts.id, id), eq(eventPosts.creatorId, creatorId)))
