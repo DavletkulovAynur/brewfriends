@@ -16,7 +16,7 @@ export function SettingsLinks({
 }) {
     return (
         <div className="flex flex-col gap-1">
-            <section className="flex flex-col rounded-xl bg-white p-4">
+            <section className="flex flex-col rounded-xl bg-card p-4 text-card-foreground">
                 {items.map(({ href, label, icon: Icon }, index) => (
                     <div key={href}>
                         {index > 0 ? <hr className="my-2 ml-10 border-t border-muted-foreground/10" /> : null}

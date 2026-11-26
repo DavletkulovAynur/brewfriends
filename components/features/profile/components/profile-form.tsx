@@ -53,11 +53,11 @@ export function ProfileForm({
             </div>
 
             <section className="flex flex-col gap-1">
-                <label className="flex flex-col bg-white rounded-xl">
+                <label className="flex flex-col rounded-xl bg-card text-card-foreground">
                     <span className="sr-only">Status</span>
                     <Input
                         aria-label="Status"
-                        className="h-16 rounded-full border-transparent bg-white px-6 text-lg shadow-none"
+                        className="h-16 rounded-full border-transparent bg-card px-6 text-lg text-card-foreground shadow-none dark:bg-card"
                         maxLength={60}
                         placeholder="Status."
                         value={form.status}
@@ -69,7 +69,7 @@ export function ProfileForm({
                 </span>
             </section>
 
-            <section className="flex flex-col gap-3 rounded-xl bg-white p-4">
+            <section className="flex flex-col gap-3 rounded-xl bg-card p-4 text-card-foreground">
                 <div>
                     <p aria-live="polite" className="mt-1 min-h-8 text-sm text-muted-foreground">
                         {MEETUP_INTENT_LABELS[form.meetupIntent ?? DEFAULT_MEETUP_INTENT]}
@@ -108,7 +108,7 @@ export function ProfileForm({
 
             <InterestsSettingsLink />
 
-            <section className="flex flex-col gap-4 rounded-xl bg-white p-4">
+            <section className="flex flex-col gap-4 rounded-xl bg-card p-4 text-card-foreground">
                 <div className="flex items-center justify-between gap-4">
                     <div>
                         <h2 className="text-sm font-semibold">Profile visibility</h2>

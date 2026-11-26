@@ -7,7 +7,7 @@ export function EventPromoBanner() {
     return (
         <Link
             href="/place-of-month"
-            className="col-span-2 mt-6 mb-6 block overflow-hidden rounded-2xl bg-white text-zinc-950 transition-transform active:scale-[0.99]"
+            className="col-span-2 mt-6 mb-6 block overflow-hidden rounded-2xl bg-white text-zinc-950 transition-transform active:scale-[0.99] dark:bg-card dark:text-card-foreground"
         >
             <article>
                 <div className="relative aspect-[2.15/1]">
@@ -20,11 +20,11 @@ export function EventPromoBanner() {
                     />
                 </div>
                 <div className="p-5">
-                    <p className="text-base text-zinc-600">{monthlyPlace.badge}</p>
+                    <p className="text-base text-zinc-600 dark:text-muted-foreground">{monthlyPlace.badge}</p>
                     <h2 className="mt-2 font-serif text-xl font-bold leading-tight">
                         {monthlyPlace.title}
                     </h2>
-                    <p className="mt-2 text-sm text-zinc-600">{monthlyPlace.description}</p>
+                    <p className="mt-2 text-sm text-zinc-600 dark:text-muted-foreground">{monthlyPlace.description}</p>
                     <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold">
                         Подробнее <ArrowUpRight aria-hidden="true" className="size-4" />
                     </span>

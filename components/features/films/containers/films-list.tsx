@@ -2,8 +2,16 @@
 
 import { useRef, useState } from "react";
 import { FilmCard } from "@/components/features/films/components/film-card";
-import { FilmDetailsSheet } from "@/components/features/films/components/film-details-sheet";
+import { EventDetailsSheet } from "@/common/event-details/components/event-details-sheet";
 import { WEEK_FILMS, type Film } from "@/components/features/films/constants/films";
+
+const cinemaLocation = {
+    label: "просп. Октября, 85, остановка «Горсовет», Уфа",
+    map: {
+        title: "Карта: проспект Октября, 85, остановка Горсовет, Уфа",
+        src: "https://yandex.ru/map-widget/v1/?ll=56.027785%2C54.774316&z=14&pt=56.027785%2C54.774316%2Cpm2rdm",
+    },
+};
 
 export function FilmsList() {
     const sliderRef = useRef<HTMLDivElement>(null);
@@ -25,7 +33,17 @@ export function FilmsList() {
                     ))}
                 </div>
             </div>
-            <FilmDetailsSheet film={selectedFilm} onOpenChange={(open) => {
+            <EventDetailsSheet event={selectedFilm ? {
+                title: selectedFilm.title,
+                posterSrc: selectedFilm.posterSrc,
+                dateLabel: selectedFilm.dateLabel,
+                showtimes: selectedFilm.showtimes,
+                ageRating: selectedFilm.ageRating,
+                location: cinemaLocation,
+                description: selectedFilm.description,
+                highlight: { title: "Почему стоит посмотреть", text: selectedFilm.whyWatch },
+                registration: { required: selectedFilm.requiresRegistration, url: selectedFilm.registrationUrl },
+            } : null} onOpenChange={(open) => {
                 if (!open) setSelectedFilm(null);
             }} />
         </section>

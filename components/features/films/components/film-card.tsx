@@ -18,7 +18,7 @@ export function FilmCard({ film, onSelect }: { film: Film; onSelect: (film: Film
                     className="object-cover transition-transform duration-200 hover:scale-[1.03]"
                 />
                 {film.ageRating ? (
-                    <span className="absolute bottom-2 left-2 rounded-md bg-white/90 px-2 py-1 text-xs font-bold text-foreground shadow-sm">
+                    <span className="absolute bottom-2 left-2 rounded-md bg-white/90 px-2 py-1 text-xs font-bold text-zinc-900 shadow-sm">
                         {film.ageRating}
                     </span>
                 ) : null}

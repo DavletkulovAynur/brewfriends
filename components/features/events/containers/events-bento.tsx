@@ -2,8 +2,8 @@
 
 import { useEventsQuery } from "@/components/features/events/api/events.query";
 import { EventHomeTileGrid } from "@/components/features/events/components/event-home-tile-grid";
+import { EventHomeTileGridSkeleton } from "@/components/features/events/components/event-home-tile-grid-skeleton";
 import { SectionHeader } from "@/components/shared/section-header";
-import { Skeleton } from "@/components/ui/skeleton";
 
 export function EventsBento() {
   const { data: events, isLoading } = useEventsQuery();
@@ -13,7 +13,7 @@ export function EventsBento() {
       <SectionHeader title="Встречи" href="/events" linkLabel="Все" />
 
       {isLoading ? (
-        <Skeleton className="h-80 w-full rounded-3xl" />
+        <EventHomeTileGridSkeleton />
       ) : (
         <EventHomeTileGrid events={events ?? []} />
       )}
