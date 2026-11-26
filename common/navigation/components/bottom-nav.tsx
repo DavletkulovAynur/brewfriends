@@ -13,7 +13,7 @@ export function BottomNav() {
       aria-label="Main navigation"
       className="pointer-events-none fixed inset-x-0 bottom-6 z-50 flex justify-center px-6"
     >
-      <ul className="pointer-events-auto flex items-center gap-1 rounded-full border border-white/70 bg-gradient-to-b from-white/70 to-white/40 p-1.5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.95),0_10px_30px_rgba(31,41,55,0.16)] ring-1 ring-white/40 backdrop-blur-2xl backdrop-saturate-180">
+      <ul className="pointer-events-auto flex items-center gap-1 rounded-full border border-white/70 bg-gradient-to-b from-white/70 to-white/40 p-1.5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.95),0_10px_30px_rgba(31,41,55,0.16)] ring-1 ring-white/40 backdrop-blur-2xl backdrop-saturate-180 dark:border-border dark:from-sidebar/95 dark:to-card/95 dark:shadow-lg dark:ring-border">
         {NAV_ITEMS.map((item) => {
           const isActive =
             pathname === item.href || pathname.startsWith(`${item.href}/`);
@@ -29,7 +29,7 @@ export function BottomNav() {
                   "flex size-12 items-center justify-center rounded-full transition-colors duration-200",
                   isActive
                     ? "bg-primary text-white shadow-md shadow-primary/30"
-                    : "text-zinc-500 hover:bg-white/35 hover:text-zinc-800",
+                    : "text-zinc-500 hover:bg-white/35 hover:text-zinc-800 dark:text-muted-foreground dark:hover:bg-accent dark:hover:text-accent-foreground",
                 )}
               >
                 <Icon size={22} strokeWidth={1.5} aria-hidden />

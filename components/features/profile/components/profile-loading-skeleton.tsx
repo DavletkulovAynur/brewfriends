@@ -16,12 +16,12 @@ export function ProfileLoadingSkeleton() {
                 <Skeleton className="ml-4 h-4 w-16" />
             </section>
 
-            <section className="flex min-h-14 items-center justify-between rounded-xl bg-white px-4">
+            <section className="flex min-h-14 items-center justify-between rounded-xl bg-white px-4 dark:bg-card">
                 <Skeleton className="h-4 w-36" />
                 <Skeleton className="size-5" />
             </section>
 
-            <section className="flex items-center justify-between gap-4 rounded-xl bg-white p-4">
+            <section className="flex items-center justify-between gap-4 rounded-xl bg-white p-4 dark:bg-card">
                 <div className="flex flex-col gap-2">
                     <Skeleton className="h-4 w-36" />
                     <Skeleton className="h-3 w-48" />
