@@ -4,11 +4,17 @@ import { useEffect, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Textarea } from "@/components/ui/textarea";
 import { getTelegramInitData, getTelegramWebApp } from "@/lib/telegram";
+import type { EventPriceType } from "@/domain/events/event.types";
 
 export type EventFormValues = {
+    title: string;
     description: string;
+    location: string;
+    priceType: EventPriceType;
+    priceAmount: number | null;
     startsAt: string | null;
 };
 
@@ -29,7 +35,14 @@ function toLocalInput(value: string | null) {
 }
 
 export function EventForm({
-    initialValues = { description: "", startsAt: null },
+    initialValues = {
+        title: "",
+        description: "",
+        location: "",
+        priceType: "free",
+        priceAmount: null,
+        startsAt: null,
+    },
     submitLabel,
     isPending,
     error,
@@ -37,7 +50,11 @@ export function EventForm({
     onSubmit,
 }: EventFormProps) {
     const router = useRouter();
+    const [title, setTitle] = useState(initialValues.title);
     const [description, setDescription] = useState(initialValues.description);
+    const [location, setLocation] = useState(initialValues.location);
+    const [priceType, setPriceType] = useState<EventPriceType>(initialValues.priceType);
+    const [priceAmount, setPriceAmount] = useState(initialValues.priceAmount?.toString() ?? "");
     const [startsAt, setStartsAt] = useState(toLocalInput(initialValues.startsAt));
     const [hasTelegramBackButton, setHasTelegramBackButton] = useState(false);
 
@@ -60,7 +77,11 @@ export function EventForm({
     function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
         onSubmit({
+            title: title.trim(),
             description: description.trim(),
+            location: location.trim(),
+            priceType,
+            priceAmount: priceType === "free" ? null : Number(priceAmount),
             startsAt: startsAt ? new Date(startsAt).toISOString() : null,
         });
     }
@@ -74,15 +95,33 @@ export function EventForm({
                             Назад
                         </Button>
                     )}
-                    <Button type="submit" variant="secondary" disabled={isPending || !description.trim()}>
+                    <Button
+                        type="submit"
+                        variant="secondary"
+                        disabled={
+                            isPending ||
+                            !title.trim() ||
+                            !description.trim() ||
+                            (priceType !== "free" && (!priceAmount || !Number.isSafeInteger(Number(priceAmount))))
+                        }
+                    >
                         {isPending ? "Сохраняем..." : submitLabel}
                     </Button>
                 </header>
 
                 <section className="flex min-w-0 flex-col gap-2">
-                    <label htmlFor="event-description" className="text-sm font-semibold">
-                        Что планируешь?
-                    </label>
+                    <Input
+                        id="event-title"
+                        required
+                        maxLength={100}
+                        value={title}
+                        onChange={(event) => setTitle(event.target.value)}
+                        placeholder="Основной title"
+                    />
+                </section>
+
+                <section className="flex min-w-0 flex-col gap-2">
+
                     <Textarea
                         id="event-description"
                         required
@@ -95,6 +134,65 @@ export function EventForm({
                         Опиши встречу коротко, до 500 символов.
                     </p>
                 </section>
+
+                <section className="flex min-w-0 flex-col gap-2">
+                    <label htmlFor="event-location" className="text-sm font-semibold">
+                        Место <span className="font-normal text-muted-foreground">Необязательно</span>
+                    </label>
+                    <Input
+                        id="event-location"
+                        maxLength={200}
+                        value={location}
+                        onChange={(event) => setLocation(event.target.value)}
+                        placeholder="Например, Гостиный двор"
+                    />
+                </section>
+
+                <section className="flex min-w-0 flex-col gap-2">
+                    <label className="text-sm font-semibold">Стоимость</label>
+                    <ToggleGroup
+                        type="single"
+                        value={priceType}
+                        onValueChange={(value) => {
+                            if (value === "free" || value === "paid") setPriceType(value);
+                        }}
+                        aria-label="Стоимость встречи"
+                        className="h-14 w-full grid-cols-2 rounded-full border border-border bg-background p-1"
+                    >
+                        <ToggleGroupItem
+                            value="paid"
+                            className="h-full flex-1 rounded-full px-3 text-base data-[state=on]:bg-primary/10 data-[state=on]:text-foreground"
+                        >
+                            Платно
+                        </ToggleGroupItem>
+                        <ToggleGroupItem
+                            value="free"
+                            className="h-full flex-1 rounded-full px-3 text-base data-[state=on]:bg-primary/10 data-[state=on]:text-foreground"
+                        >
+                            Бесплатно
+                        </ToggleGroupItem>
+                    </ToggleGroup>
+                    {priceType !== "free" ? (
+                        <div className="flex flex-col gap-2">
+                            <label htmlFor="event-price-amount" className="text-sm font-medium">
+                                Сумма, ₽
+                            </label>
+                            <Input
+                                id="event-price-amount"
+                                type="number"
+                                inputMode="numeric"
+                                min={1}
+                                step={1}
+                                required
+                                value={priceAmount}
+                                onChange={(event) => setPriceAmount(event.target.value)}
+                                placeholder="Например, 500"
+                            />
+                        </div>
+                    ) : null}
+                </section>
+
+
 
                 <section className="flex flex-col gap-2">
                     <label htmlFor="event-starts-at" className="text-sm font-semibold">

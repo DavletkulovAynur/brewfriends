@@ -92,6 +92,27 @@
       "when": 1794568144591,
       "tag": "0012_add_meetup_intent",
       "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1795432930294,
+      "tag": "0013_add_event_post_title",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1795434006042,
+      "tag": "0014_add_event_post_location_and_price",
+      "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "7",
+      "when": 1795509498909,
+      "tag": "0015_people_suggestions",
+      "breakpoints": true
     }
   ]
 }
